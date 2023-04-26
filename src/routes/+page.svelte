@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import {
 		modalStore,
 		toastStore,
@@ -8,17 +9,13 @@
 	} from '@skeletonlabs/skeleton';
 
 	let items = Array(100);
+	let isLoading = false;
+
 	interface NoteItem {
 		code: string;
 	}
 
-	let fakeData: NoteItem[] = Array.from(
-		items,
-		(_) =>
-			<NoteItem>{
-				code: crypto.randomUUID()
-			}
-	);
+	let fakeData: NoteItem[] = [];
 
 	const toastSettingsNoteEdited: ToastSettings = {
 		message: 'Note edited',
@@ -77,22 +74,40 @@
 		modalSettinsDeleteNote.meta = { code };
 		modalStore.trigger(modalSettinsDeleteNote);
 	}
+
+	onMount(() => {
+		fakeData = Array.from(
+			items,
+			(_) =>
+				<NoteItem>{
+					code: crypto.randomUUID()
+				}
+		);
+
+		isLoading = true;
+	});
 </script>
 
-<div class="container mx-auto flex justify-center">
-	<div class="grid grid-cols-1 gap-4 h-full w-full mr-3 ml-2 mb-2 mt-4">
-		{#each fakeData as item (item.code)}
-			<button
-				class="relative card p-4 w-full h-max rounded-lg"
-				on:click|preventDefault|stopPropagation={() => showEditModal(item.code)}
-			>
+{#if isLoading === false}
+	<main class="container h-full flex justify-center items-center">
+		<span class="font-bold text-lg uppercase">IS LOADING</span>
+	</main>
+{:else}
+	<main class="container mx-auto flex justify-center">
+		<div class="grid grid-cols-1 gap-4 h-full w-full mr-3 ml-2 mb-2 mt-4">
+			{#each fakeData as item (item.code)}
 				<button
-					type="button"
-					class="absolute -top-2 -right-2 z-20 h-6 w-6 rounded-full variant-ringed"
-					on:click|preventDefault|stopPropagation={() => showDeleteModal(item.code)}>x</button
+					class="relative card p-4 w-full h-max rounded-lg"
+					on:click|preventDefault|stopPropagation={() => showEditModal(item.code)}
 				>
-				<span>{item.code}</span>
-			</button>
-		{/each}
-	</div>
-</div>
+					<button
+						type="button"
+						class="absolute -top-2 -right-2 z-20 h-6 w-6 rounded-full variant-ringed"
+						on:click|preventDefault|stopPropagation={() => showDeleteModal(item.code)}>x</button
+					>
+					<span>{item.code}</span>
+				</button>
+			{/each}
+		</div>
+	</main>
+{/if}

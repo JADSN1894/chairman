@@ -16,11 +16,13 @@
 		<header class="text-2xl font-bold">{$modalStore[0].title ?? '(title missing)'}</header>
 		<article>{$modalStore[0].body ?? '(body missing)'}</article>
 		<footer class="modal-footer {parent.regionFooter}">
-			<button class="btn {parent.buttonNeutral}" on:click|preventDefault={parent.onClose}
-				>{parent.buttonTextCancel}</button
+			<button
+				class="btn {parent.buttonNeutral}"
+				on:click|preventDefault|stopPropagation={parent.onClose}>{parent.buttonTextCancel}</button
 			>
-			<button class="btn {parent.buttonPositive}" on:click|preventDefault={onClickEventeAddNote}
-				>Add</button
+			<button
+				class="btn {parent.buttonPositive}"
+				on:click|preventDefault|stopPropagation={onClickEventeAddNote}>Add</button
 			>
 		</footer>
 	</div>

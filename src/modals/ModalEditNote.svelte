@@ -21,10 +21,13 @@
 			placeholder="Note description"
 		/>
 		<footer class="modal-footer {parent.regionFooter}">
-			<button class="btn {parent.buttonNeutral}" on:click|preventDefault={parent.onClose}>No</button
+			<button
+				class="btn {parent.buttonNeutral}"
+				on:click|preventDefault|stopPropagation={parent.onClose}>No</button
 			>
-			<button class="btn {parent.buttonPositive}" on:click|preventDefault={onClickEventeEditNote}
-				>Edit</button
+			<button
+				class="btn {parent.buttonPositive}"
+				on:click|preventDefault|stopPropagation={onClickEventeEditNote}>Edit</button
 			>
 		</footer>
 	</div>
