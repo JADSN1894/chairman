@@ -30,7 +30,8 @@
 				"aaron-bond.better-comments",
 				"WallabyJs.console-ninja",
 				"yoavbls.pretty-ts-errors",
-				"statelyai.stately-vscode"
+				"statelyai.stately-vscode",
+				"vunguyentuan.vscode-postcss"
 			]
 		}
 	}
