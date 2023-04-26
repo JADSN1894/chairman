@@ -75,12 +75,12 @@
 </script>
 
 {#if isLoading === false}
-	<main class="container h-full flex justify-center items-center">
-		<span class="font-bold text-lg uppercase">IS LOADING</span>
+	<main class="h-full flex justify-center items-center">
+		<span class="font-bold text-2xl uppercase">IS LOADING</span>
 	</main>
 {:else if $noteLocalStorage.length === 0}
-	<main class="container h-full flex justify-center items-center">
-		<span class="font-bold text-lg uppercase">IS EMPTY</span>
+	<main class="h-full flex justify-center items-center">
+		<span class="font-bold text-2xl uppercase">IS EMPTY</span>
 	</main>
 {:else}
 	<main class="container mx-auto flex justify-center">
