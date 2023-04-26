@@ -87,12 +87,12 @@
 		<div class="grid grid-cols-1 gap-4 h-full w-full mr-3 ml-2 mb-2 mt-4">
 			{#each $noteLocalStorage as item (item.code)}
 				<button
-					class="relative card p-4 w-full h-max rounded-lg"
+					class="relative card p-4 w-full h-max rounded-lg border-2"
 					on:click|preventDefault|stopPropagation={() => showEditModal(item.code, item.description)}
 				>
 					<button
 						type="button"
-						class="absolute -top-2 -right-2 z-20 h-6 w-6 rounded-full variant-ringed"
+						class="absolute -top-2 -right-2 z-20 h-6 w-6 rounded-full variant-filled"
 						on:click|preventDefault|stopPropagation={() => showDeleteModal(item.code)}>x</button
 					>
 					<div class="flex flex-col items-start justify-start gap-y-2">
