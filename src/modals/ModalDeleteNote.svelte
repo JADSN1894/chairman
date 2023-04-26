@@ -4,8 +4,11 @@
 
 	// Stores
 	import { modalStore } from '@skeletonlabs/skeleton';
+	import { deleteNote } from '../store/noteStore';
 
 	function onClickEventeDeleteNote(): void {
+		deleteNote($modalStore[0].meta?.code);
+
 		if ($modalStore[0].response) $modalStore[0].response(true);
 		modalStore.close();
 	}
@@ -25,7 +28,7 @@
 			>
 			<button
 				class="btn {parent.buttonPositive}"
-				on:click|preventDefault|stopPropagation={onClickEventeDeleteNote}>Add</button
+				on:click|preventDefault|stopPropagation={onClickEventeDeleteNote}>Yes</button
 			>
 		</footer>
 	</div>

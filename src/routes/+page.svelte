@@ -4,18 +4,12 @@
 		modalStore,
 		toastStore,
 		type ToastSettings,
-		type ModalSettings,
-		type ModalComponent
+		type ModalSettings
 	} from '@skeletonlabs/skeleton';
 
-	let items = Array(100);
+	import { noteLocalStorage } from '../store/noteStore';
+
 	let isLoading = false;
-
-	interface NoteItem {
-		code: string;
-	}
-
-	let fakeData: NoteItem[] = [];
 
 	const toastSettingsNoteEdited: ToastSettings = {
 		message: 'Note edited',
@@ -65,8 +59,8 @@
 		}
 	};
 
-	function showEditModal(code: string): void {
-		modalSettinsEditNote.meta = { code };
+	function showEditModal(code: string, description: string): void {
+		modalSettinsEditNote.meta = { code, description };
 		modalStore.trigger(modalSettinsEditNote);
 	}
 
@@ -76,14 +70,6 @@
 	}
 
 	onMount(() => {
-		fakeData = Array.from(
-			items,
-			(_) =>
-				<NoteItem>{
-					code: crypto.randomUUID()
-				}
-		);
-
 		isLoading = true;
 	});
 </script>
@@ -92,20 +78,27 @@
 	<main class="container h-full flex justify-center items-center">
 		<span class="font-bold text-lg uppercase">IS LOADING</span>
 	</main>
+{:else if $noteLocalStorage.length === 0}
+	<main class="container h-full flex justify-center items-center">
+		<span class="font-bold text-lg uppercase">IS EMPTY</span>
+	</main>
 {:else}
 	<main class="container mx-auto flex justify-center">
 		<div class="grid grid-cols-1 gap-4 h-full w-full mr-3 ml-2 mb-2 mt-4">
-			{#each fakeData as item (item.code)}
+			{#each $noteLocalStorage as item (item.code)}
 				<button
 					class="relative card p-4 w-full h-max rounded-lg"
-					on:click|preventDefault|stopPropagation={() => showEditModal(item.code)}
+					on:click|preventDefault|stopPropagation={() => showEditModal(item.code, item.description)}
 				>
 					<button
 						type="button"
 						class="absolute -top-2 -right-2 z-20 h-6 w-6 rounded-full variant-ringed"
 						on:click|preventDefault|stopPropagation={() => showDeleteModal(item.code)}>x</button
 					>
-					<span>{item.code}</span>
+					<div class="flex flex-col items-start justify-start gap-y-2">
+						<code>{item.code}</code>
+						<span>{item.description}</span>
+					</div>
 				</button>
 			{/each}
 		</div>
