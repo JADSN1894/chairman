@@ -23,6 +23,7 @@
 	import ModalEditNote from '../modals/ModalEditNote.svelte';
 	import ModalAddNote from '../modals/ModalAddNote.svelte';
 	import ModalDeleteNote from '../modals/ModalDeleteNote.svelte';
+	import { onMount } from 'svelte';
 
 	const toastSettingsNoteCreated: ToastSettings = {
 		message: 'Note created',
@@ -66,6 +67,15 @@
 	function showAddModal(): void {
 		modalStore.trigger(confirmMoadSettinsAddNote);
 	}
+
+	onMount(async () => {
+		const options = { method: 'GET' };
+
+		// fetch('https://chairman-backend.jadsn1894.workers.dev/', options)
+		// 	.then((response) => response.json())
+		// 	.then((response) => console.log(response))
+		// 	.catch((err) => console.error(err));
+	});
 </script>
 
 <svelte:head>
