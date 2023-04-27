@@ -8,6 +8,8 @@
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import '../app.postcss';
 
+	import { noteLocalStorage } from '../store/noteStore';
+
 	import {
 		AppBar,
 		AppShell,
@@ -68,14 +70,9 @@
 		modalStore.trigger(confirmMoadSettinsAddNote);
 	}
 
-	onMount(async () => {
-		const options = { method: 'GET' };
+	$: classButtonAddVisible = $noteLocalStorage.length <= 3 ? 'visible' : 'invisible';
 
-		// fetch('https://chairman-backend.jadsn1894.workers.dev/', options)
-		// 	.then((response) => response.json())
-		// 	.then((response) => console.log(response))
-		// 	.catch((err) => console.error(err));
-	});
+	onMount(async () => {});
 </script>
 
 <svelte:head>
@@ -93,7 +90,7 @@
 			<svelte:fragment slot="trail">
 				<button
 					type="button"
-					class="btn btn-md rounded-lg variant-filled"
+					class="btn btn-md rounded-lg variant-filled {classButtonAddVisible}"
 					on:click|preventDefault={showAddModal}>ADD</button
 				>
 			</svelte:fragment>
