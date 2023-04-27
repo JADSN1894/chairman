@@ -72,12 +72,7 @@
 	<title>Chairman</title>
 </svelte:head>
 
-<Modal
-	components={modalComponentRegistry}
-	on:backdrop={(e) => {
-		console.log(e);
-	}}
-/>
+<Modal components={modalComponentRegistry} />
 <Toast position="tr" />
 
 <AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">

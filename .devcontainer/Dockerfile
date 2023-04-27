@@ -5,7 +5,7 @@ RUN groupmod -g 1000 node && usermod -u 1000 -g 1000 node
 RUN apt -yq update && apt -yq upgrade && export DEBIAN_FRONTEND=noninteractive
 
 RUN apt -yqq install --no-install-recommends curl ca-certificates \
-    build-essential pkg-config \
+    build-essential pkg-config clang cmake \
     wget git curl iproute2 tar jq unzip 
 
 RUN npm install -g npm@latest

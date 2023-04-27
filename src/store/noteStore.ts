@@ -7,12 +7,7 @@ interface NoteItem {
 }
 
 const LOCAL_STORAGE_KEY = 'notes'
-
 const initialNoteSotre: NoteItem[] = browser ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || `[]`) ?? [] : [];
-
-
-console.log(browser);
-
 
 export const noteLocalStorage = writable<NoteItem[]>(initialNoteSotre)
 
