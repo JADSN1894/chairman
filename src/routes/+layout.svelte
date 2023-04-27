@@ -19,7 +19,9 @@
 		toastStore,
 		type ModalSettings,
 		type ToastSettings,
-		type ModalComponent
+		type ModalComponent,
+		LightSwitch,
+		autoModeWatcher
 	} from '@skeletonlabs/skeleton';
 
 	import ModalEditNote from '../modals/ModalEditNote.svelte';
@@ -77,6 +79,7 @@
 
 <svelte:head>
 	<title>Chairman</title>
+	{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}
 </svelte:head>
 
 <Modal components={modalComponentRegistry} />
@@ -84,8 +87,12 @@
 
 <AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
 	<svelte:fragment slot="header">
-		<AppBar>
-			<svelte:fragment slot="lead"><h1 class="text-sm">Chairman</h1></svelte:fragment>
+		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+			<svelte:fragment slot="lead">
+				<h1 class="text-base">Chairman</h1>
+			</svelte:fragment>
+
+			<LightSwitch />
 
 			<svelte:fragment slot="trail">
 				<button
