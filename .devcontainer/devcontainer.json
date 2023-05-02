@@ -21,9 +21,7 @@
 			"extensions": [
 				"svelte.svelte-vscode",
 				"bradlc.vscode-tailwindcss",
-				"serayuzgur.crates",
 				"usernamehw.errorlens",
-				"rust-lang.rust-analyzer",
 				"sclu1034.justfile",
 				"yzhang.markdown-all-in-one",
 				"tamasfe.even-better-toml",
