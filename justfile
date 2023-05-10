@@ -13,6 +13,11 @@ reset-setup:
    @npm install
    @just dev 
 
+# Build and preview
+preview:
+    @npm run build
+    @npm run preview
+
 # Show all ports LISTEN
 show-listen-ports:
     @ss -apt | grep LISTEN
