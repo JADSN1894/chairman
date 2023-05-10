@@ -29,7 +29,8 @@
 				"WallabyJs.console-ninja",
 				"yoavbls.pretty-ts-errors",
 				"statelyai.stately-vscode",
-				"vunguyentuan.vscode-postcss"
+				"vunguyentuan.vscode-postcss",
+				"henrikvilhelmberglund.vscode-svelte-snippets-henrikvilhelmberglund"
 			]
 		}
 	}

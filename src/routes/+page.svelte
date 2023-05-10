@@ -96,7 +96,7 @@
 						on:click|preventDefault|stopPropagation={() => showDeleteModal(item.code)}>x</button
 					>
 					<div class="flex flex-col items-start justify-start gap-y-2">
-						<code>{item.code}</code>
+						<code class="code">{item.code}</code>
 						<span>{item.description}</span>
 					</div>
 				</button>

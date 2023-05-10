@@ -10,7 +10,8 @@ dev:
 reset-setup:
    @rm -rf .dfx node_modules package-lock.json 
    @npm cache clean target --force 
-   @npm install 
+   @npm install
+   @just dev 
 
 # Show all ports LISTEN
 show-listen-ports:

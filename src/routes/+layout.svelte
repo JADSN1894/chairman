@@ -3,7 +3,7 @@
 	import '../theme.postcss';
 
 	// This contains the bulk of Skeletons required styles:
-	import '@skeletonlabs/skeleton/styles/all.css';
+	import '@skeletonlabs/skeleton/styles/skeleton.css';
 
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import '../app.postcss';
@@ -89,7 +89,7 @@
 	<svelte:fragment slot="header">
 		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
 			<svelte:fragment slot="lead">
-				<h1 class="text-base">Chairman</h1>
+				<h1 class="h1">Chairman</h1>
 			</svelte:fragment>
 
 			<LightSwitch />
@@ -108,7 +108,9 @@
 	<!-- ---- / ---- -->
 	<svelte:fragment slot="footer">
 		<footer class="bg-surface-100-800-token h-12 flex items-center justify-center">
-			<h1 class="font-bold tracking-wide text-sm font-heading-token">{new Date().getFullYear()}</h1>
+			<h1 class="h1 font-bold tracking-wide font-heading-token">
+				{new Date().getFullYear()}
+			</h1>
 		</footer>
 	</svelte:fragment>
 </AppShell>
