@@ -1,8 +1,14 @@
 <script lang="ts">
-	// Custom  theme:
-	import '../theme.postcss';
+	//* ------- SVELTE ------
+	import { goto } from '$app/navigation';
+
+	//* ------- SKELETON ------
+	// This contains the bulk of Skeletons required styles:
+	// Your selected Skeleton theme:
+	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 
 	// This contains the bulk of Skeletons required styles:
+	// NOTE: this will be renamed skeleton.css in the v2.x release.
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
@@ -14,20 +20,36 @@
 		AppBar,
 		AppShell,
 		Modal,
-		modalStore,
 		Toast,
-		toastStore,
-		type ModalSettings,
-		type ToastSettings,
 		type ModalComponent,
 		LightSwitch,
-		autoModeWatcher
+		autoModeWatcher,
+		modalStore,
+		type ModalSettings,
+		toastStore,
+		type ToastSettings
 	} from '@skeletonlabs/skeleton';
 
 	import ModalEditNote from '../modals/ModalEditNote.svelte';
 	import ModalAddNote from '../modals/ModalAddNote.svelte';
 	import ModalDeleteNote from '../modals/ModalDeleteNote.svelte';
-	import { onMount } from 'svelte';
+
+	// let error: Error | null = null;
+
+	const modalComponentRegistry: Record<string, ModalComponent> = {
+		modalAddNote: {
+			ref: ModalAddNote,
+			slot: '<p>Error on show add modal</p>'
+		},
+		modalEditNote: {
+			ref: ModalEditNote,
+			slot: '<p>Error on show edit modal</p>'
+		},
+		modalDeleteNote: {
+			ref: ModalDeleteNote,
+			slot: '<p>Error on show edit modal</p>'
+		}
+	};
 
 	const toastSettingsNoteCreated: ToastSettings = {
 		message: 'Note created',
@@ -53,28 +75,11 @@
 		}
 	};
 
-	const modalComponentRegistry: Record<string, ModalComponent> = {
-		modalAddNote: {
-			ref: ModalAddNote,
-			slot: '<p>Error on show add modal</p>'
-		},
-		modalEditNote: {
-			ref: ModalEditNote,
-			slot: '<p>Error on show edit modal</p>'
-		},
-		modalDeleteNote: {
-			ref: ModalDeleteNote,
-			slot: '<p>Error on show edit modal</p>'
-		}
-	};
-
 	function showAddModal(): void {
 		modalStore.trigger(confirmMoadSettinsAddNote);
 	}
 
 	$: classButtonAddVisible = $noteLocalStorage.length <= 3 ? 'visible' : 'invisible';
-
-	onMount(async () => {});
 </script>
 
 <svelte:head>

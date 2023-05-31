@@ -14,9 +14,9 @@
 				"editor.formatOnSave": true,
 				"explorer.compactFolders": false,
 				"css.lint.unknownAtRules": "ignore",
-				"rust-analyzer.diagnostics.disabled": [
-					"unresolved-proc-macro"
-				]
+				"terminal.integrated.env.linux": {
+					"EDITOR": "code"
+				}
 			},
 			"extensions": [
 				"svelte.svelte-vscode",
