@@ -15,6 +15,24 @@ const config = {
 				strict: false
 			}
 		),
+		csp: {
+			mode: "hash",
+			directives: {
+				"script-src": ["self"],
+				'base-uri': ["self"],
+				'child-src': ["self"],
+				'connect-src': ["self"],
+				'img-src': ["self", 'data:'],
+				'font-src': ["self", 'data:'],
+				'form-action': ["self"],
+				'frame-ancestors': ["self"],
+				'frame-src': ["self",],
+				'manifest-src': ["self"],
+				'media-src': ["self"],
+				'object-src': ["none"],
+				'style-src': ["self"],
+			},
+		},
 	},
 
 	preprocess: [
