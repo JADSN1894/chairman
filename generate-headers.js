@@ -1,20 +1,9 @@
 // import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
-import { parse } from 'node-html-parser';
 
 const __dirname = path.resolve();
 const buildDir = path.join(__dirname, 'build');
-
-
-// function removeCspMeta(inputFile) {
-//     const fileContents = fs.readFileSync(inputFile, { encoding: 'utf-8' });
-//     const root = parse(fileContents);
-//     const element = root.querySelector('head meta[http-equiv="content-security-policy"]');
-//     const content = element.getAttribute('content');
-//     root.remove(element);
-//     return content;
-// }
 
 const cspMap = new Map();
 
@@ -33,22 +22,10 @@ function findCspMeta(startPath, filter = /.html$/) {
         if (stat.isDirectory()) {
             findCspMeta(filename, filter);
         }
-        // else if (filter.test(filename)) {
-        //     cspMap.set(
-        //         filename
-        //             .replace(buildDir, '')
-        //             .replace(/.html$/, '')
-        //             .replace(/^\/index$/, ''),
-        //         removeCspMeta(filename),
-        //     );
-        // }
     });
 }
 
 function createHeaders() {
-
-
-
     const headers = `
     X-Frame-Options: DENY
     X-XSS-Protection: 1; mode=block
@@ -62,8 +39,6 @@ function createHeaders() {
 
     const headersFile = path.join(buildDir, '_headers');
 
-    // console.log('headersFile');
-    // console.log(headersFile);
     fs.appendFileSync(headersFile, `${headers}${cspArray.join('')}`);
 }
 

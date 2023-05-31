@@ -6,6 +6,10 @@ list:
 dev:
     npm run dev
 
+prod:
+   @npm run build
+   @python3 -m http.server --directory build
+
 # Reset project to t0
 reset-setup:
    @rm -rf .dfx node_modules package-lock.json 
