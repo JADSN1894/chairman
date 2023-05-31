@@ -32,6 +32,7 @@ const config = {
 				'object-src': ['none'],
 				'style-src': ['self', 'unsafe-inline'],
 				'worker-src': ['self'],
+				'default-src': ['self', 'https://chairman.jadsn.dev.br']
 			},
 		},
 	},
