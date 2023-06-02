@@ -1,4 +1,5 @@
 <script lang="ts">
+	import CardTaskComponent from '$components/CardTaskComponent.svelte';
 	import { noteLocalStorage } from '../store/noteStore';
 
 	import {
@@ -84,6 +85,24 @@
 		background: 'variant-filled-error'
 	};
 
+	function showAddModal(): void {
+		modalStore.trigger(confirmMoadSettinsAddNote);
+	}
+
+	const confirmMoadSettinsAddNote: ModalSettings = {
+		type: 'component',
+		title: 'ACTION',
+		body: 'Add note',
+		component: 'modalAddNote',
+		response: (isConfirmmed: boolean) => {
+			if (isConfirmmed === true) {
+				toastStore.trigger(toastSettingsNoteCreated);
+			} else {
+				toastStore.trigger(toastSettingsNoteNotCreated);
+			}
+		}
+	};
+
 	function showEditModal(code: string, description: string): void {
 		modalSettinsEditNote.meta = { code, description };
 		modalStore.trigger(modalSettinsEditNote);
@@ -93,44 +112,14 @@
 		modalSettinsDeleteNote.meta = { code };
 		modalStore.trigger(modalSettinsDeleteNote);
 	}
-
-	function formatTimeAgoFromTimestamp(timestamp: number, currentTime: number): string {
-		let value = '';
-		const diff = (currentTime - timestamp) / 1000;
-		const minutes = Math.floor(diff / 60);
-		const hours = Math.floor(minutes / 60);
-		const days = Math.floor(hours / 24);
-		const months = Math.floor(days / 30);
-		const years = Math.floor(months / 12);
-		const languages = get(preferredLanguages());
-
-		const rtf = new Intl.RelativeTimeFormat(languages[0], { style: 'short', numeric: 'auto' });
-
-		if (years > 0) {
-			value = rtf.format(0 - years, 'year');
-		} else if (months > 0) {
-			value = rtf.format(0 - months, 'month');
-		} else if (days > 0) {
-			value = rtf.format(0 - days, 'day');
-		} else if (hours > 0) {
-			value = rtf.format(0 - hours, 'hour');
-		} else if (Math.floor(diff + 1) === 60) {
-			value = rtf.format(1, 'minute');
-		} else if (minutes > 0) {
-			value = rtf.format(0 - minutes, 'minute');
-		} else {
-			value = rtf.format(Math.floor(0 - diff), 'second');
-		}
-		return value;
-	}
 </script>
 
 <!-- Add todo -->
-<!-- <button
+<button
 	type="button"
 	class="z-10 fixed right-4 bottom-14 btn btn-sm rounded-full font-extrabold text-md variant-filled"
-	on:click|preventDefault|stopPropagation={() => {}}>+</button
-> -->
+	on:click|preventDefault|stopPropagation={() => showAddModal()}>+</button
+>
 
 {#if $noteLocalStorage.length === 0}
 	<main class="h-full flex justify-center items-center">
@@ -140,25 +129,7 @@
 	<main class="container mx-auto flex justify-center">
 		<div class="grid grid-cols-1 gap-4 h-full w-full mr-3 ml-2 mb-2 mt-4">
 			{#each $noteLocalStorage as item (item.code)}
-				<!-- Card -->
-				<button
-					class="relative card p-4 w-full h-max rounded-lg border-2"
-					on:click|preventDefault|stopPropagation={() => showEditModal(item.code, item.description)}
-				>
-					<button
-						type="button"
-						class="absolute -top-2 -right-2 z-10 h-6 w-6 rounded-full variant-filled"
-						on:click|preventDefault|stopPropagation={() => showDeleteModal(item.code)}>x</button
-					>
-					<div class="flex flex-col items-start justify-start gap-y-2">
-						<code class="code">{item.code}</code>
-						<span>{item.description}</span>
-						<span
-							><strong>Created at: </strong>
-							{formatTimeAgoFromTimestamp(item.createdAt, currentTime)}</span
-						>
-					</div>
-				</button>
+				<CardTaskComponent taskItem={item} />
 			{/each}
 		</div>
 	</main>

@@ -51,34 +51,6 @@
 		}
 	};
 
-	const toastSettingsNoteCreated: ToastSettings = {
-		message: 'Note created',
-		background: 'variant-filled-success'
-	};
-
-	const toastSettingsNoteNotCreated: ToastSettings = {
-		message: 'Note not created',
-		background: 'variant-filled-error'
-	};
-
-	const confirmMoadSettinsAddNote: ModalSettings = {
-		type: 'component',
-		title: 'ACTION',
-		body: 'Add note',
-		component: 'modalAddNote',
-		response: (isConfirmmed: boolean) => {
-			if (isConfirmmed === true) {
-				toastStore.trigger(toastSettingsNoteCreated);
-			} else {
-				toastStore.trigger(toastSettingsNoteNotCreated);
-			}
-		}
-	};
-
-	function showAddModal(): void {
-		modalStore.trigger(confirmMoadSettinsAddNote);
-	}
-
 	$: classButtonAddVisible = $noteLocalStorage.length <= 3 ? 'visible' : 'invisible';
 </script>
 
@@ -98,14 +70,6 @@
 			</svelte:fragment>
 
 			<LightSwitch />
-
-			<svelte:fragment slot="trail">
-				<button
-					type="button"
-					class="btn btn-md rounded-lg variant-filled {classButtonAddVisible}"
-					on:click|preventDefault={showAddModal}>ADD</button
-				>
-			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 	<!-- Router Slot -->

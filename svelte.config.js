@@ -17,7 +17,8 @@ const config = {
 
 		),
 		alias: {
-			'$types': './src/types'
+			'$types': './src/types',
+			'$components': './src/components'
 		},
 		csp: {
 			mode: "hash",
