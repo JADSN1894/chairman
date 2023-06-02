@@ -23,7 +23,7 @@
 		<header class="text-2xl font-bold">{$modalStore[0].title ?? '(title missing)'}</header>
 		<article>{$modalStore[0].body ?? '(body missing)'}</article>
 		<textarea
-			class="input rounded-none resize-none overflow-x-visible border-2"
+			class="input rounded-md resize-none overflow-x-visible border-2"
 			placeholder="Note description"
 			bind:value={noteDescription}
 		/>

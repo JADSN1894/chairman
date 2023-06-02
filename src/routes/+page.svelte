@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import {
-		modalStore,
-		toastStore,
-		type ToastSettings,
-		type ModalSettings
-	} from '@skeletonlabs/skeleton';
-
 	import { noteLocalStorage } from '../store/noteStore';
 
-	let isLoading = false;
+	import {
+		toastStore,
+		type ModalSettings,
+		modalStore,
+		type ToastSettings
+	} from '@skeletonlabs/skeleton';
+
+	// let error: Error | null = null;
+	let userId = '';
 
 	const toastSettingsNoteEdited: ToastSettings = {
 		message: 'Note edited',
@@ -59,6 +59,30 @@
 		}
 	};
 
+	const toastSettingsNoteCreated: ToastSettings = {
+		message: 'Note created',
+		background: 'variant-filled-success'
+	};
+
+	const toastSettingsNoteNotCreated: ToastSettings = {
+		message: 'Note not created',
+		background: 'variant-filled-error'
+	};
+
+	const confirmMoadSettinsAddNote: ModalSettings = {
+		type: 'component',
+		title: 'ACTION',
+		body: 'Add note',
+		component: 'modalAddNote',
+		response: (isConfirmmed: boolean) => {
+			if (isConfirmmed === true) {
+				toastStore.trigger(toastSettingsNoteCreated);
+			} else {
+				toastStore.trigger(toastSettingsNoteNotCreated);
+			}
+		}
+	};
+
 	function showEditModal(code: string, description: string): void {
 		modalSettinsEditNote.meta = { code, description };
 		modalStore.trigger(modalSettinsEditNote);
@@ -68,19 +92,18 @@
 		modalSettinsDeleteNote.meta = { code };
 		modalStore.trigger(modalSettinsDeleteNote);
 	}
-
-	onMount(() => {
-		isLoading = true;
-	});
 </script>
 
-{#if isLoading === false}
+<!-- Add todo -->
+<!-- <button
+	type="button"
+	class="z-10 fixed right-4 bottom-14 btn btn-sm rounded-full font-extrabold text-md variant-filled {classButtonAddVisible}"
+	on:click|preventDefault|stopPropagation={showAddModal}>+</button
+> -->
+
+{#if $noteLocalStorage.length === 0}
 	<main class="h-full flex justify-center items-center">
-		<span class="font-bold text-2xl uppercase">IS LOADING</span>
-	</main>
-{:else if $noteLocalStorage.length === 0}
-	<main class="h-full flex justify-center items-center">
-		<span class="font-bold text-2xl uppercase">IS EMPTY</span>
+		<h2 class="font-bold text-2xl uppercase h2">NO ITEMS</h2>
 	</main>
 {:else}
 	<main class="container mx-auto flex justify-center">
@@ -92,11 +115,11 @@
 				>
 					<button
 						type="button"
-						class="absolute -top-2 -right-2 z-20 h-6 w-6 rounded-full variant-filled"
+						class="absolute -top-2 -right-2 z-10 h-6 w-6 rounded-full variant-filled"
 						on:click|preventDefault|stopPropagation={() => showDeleteModal(item.code)}>x</button
 					>
 					<div class="flex flex-col items-start justify-start gap-y-2">
-						<code>{item.code}</code>
+						<code class="code">{item.code}</code>
 						<span>{item.description}</span>
 					</div>
 				</button>

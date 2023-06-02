@@ -14,16 +14,14 @@
 				"editor.formatOnSave": true,
 				"explorer.compactFolders": false,
 				"css.lint.unknownAtRules": "ignore",
-				"rust-analyzer.diagnostics.disabled": [
-					"unresolved-proc-macro"
-				]
+				"terminal.integrated.env.linux": {
+					"EDITOR": "code"
+				}
 			},
 			"extensions": [
 				"svelte.svelte-vscode",
 				"bradlc.vscode-tailwindcss",
-				"serayuzgur.crates",
 				"usernamehw.errorlens",
-				"rust-lang.rust-analyzer",
 				"sclu1034.justfile",
 				"yzhang.markdown-all-in-one",
 				"tamasfe.even-better-toml",
@@ -31,7 +29,8 @@
 				"WallabyJs.console-ninja",
 				"yoavbls.pretty-ts-errors",
 				"statelyai.stately-vscode",
-				"vunguyentuan.vscode-postcss"
+				"vunguyentuan.vscode-postcss",
+				"henrikvilhelmberglund.vscode-svelte-snippets-henrikvilhelmberglund"
 			]
 		}
 	}
