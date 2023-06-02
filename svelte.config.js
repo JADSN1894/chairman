@@ -14,7 +14,11 @@ const config = {
 				precompress: false,
 				strict: false
 			}
+
 		),
+		alias: {
+			'$types': './src/types'
+		},
 		csp: {
 			mode: "hash",
 			directives: {

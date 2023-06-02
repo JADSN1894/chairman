@@ -1,6 +1,7 @@
 export interface NoteItem {
     code: string,
     description: string
+    createdAt: number
 }
 
 export interface NoteItemCreate {

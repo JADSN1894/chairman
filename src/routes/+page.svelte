@@ -8,6 +8,8 @@
 		type ToastSettings
 	} from '@skeletonlabs/skeleton';
 
+	import { preferredLanguages } from 'svelte-legos';
+	import { get } from 'svelte/store';
 	// let error: Error | null = null;
 	let userId = '';
 
@@ -69,20 +71,6 @@
 		background: 'variant-filled-error'
 	};
 
-	const confirmMoadSettinsAddNote: ModalSettings = {
-		type: 'component',
-		title: 'ACTION',
-		body: 'Add note',
-		component: 'modalAddNote',
-		response: (isConfirmmed: boolean) => {
-			if (isConfirmmed === true) {
-				toastStore.trigger(toastSettingsNoteCreated);
-			} else {
-				toastStore.trigger(toastSettingsNoteNotCreated);
-			}
-		}
-	};
-
 	function showEditModal(code: string, description: string): void {
 		modalSettinsEditNote.meta = { code, description };
 		modalStore.trigger(modalSettinsEditNote);
@@ -91,6 +79,34 @@
 	function showDeleteModal(code: string): void {
 		modalSettinsDeleteNote.meta = { code };
 		modalStore.trigger(modalSettinsDeleteNote);
+	}
+
+	function formatTimeAgoFromTimestamp(timestamp: number): string {
+		let value = '';
+		const diff = (new Date().getTime() - timestamp) / 1000;
+		const minutes = Math.floor(diff / 60);
+		const hours = Math.floor(minutes / 60);
+		const days = Math.floor(hours / 24);
+		const months = Math.floor(days / 30);
+		const years = Math.floor(months / 12);
+		const languages = get(preferredLanguages());
+
+		const rtf = new Intl.RelativeTimeFormat(languages[0], { style: 'short', numeric: 'auto' });
+
+		if (years > 0) {
+			value = rtf.format(0 - years, 'year');
+		} else if (months > 0) {
+			value = rtf.format(0 - months, 'month');
+		} else if (days > 0) {
+			value = rtf.format(0 - days, 'day');
+		} else if (hours > 0) {
+			value = rtf.format(0 - hours, 'hour');
+		} else if (minutes > 0) {
+			value = rtf.format(0 - minutes, 'minute');
+		} else {
+			value = rtf.format(0 - diff, 'second');
+		}
+		return value;
 	}
 </script>
 
@@ -121,6 +137,10 @@
 					<div class="flex flex-col items-start justify-start gap-y-2">
 						<code class="code">{item.code}</code>
 						<span>{item.description}</span>
+						<span
+							><strong>Created at: </strong>
+							{formatTimeAgoFromTimestamp(item.createdAt) ?? ''}</span
+						>
 					</div>
 				</button>
 			{/each}

@@ -1,10 +1,7 @@
 import { writable } from 'svelte/store'
 import { browser } from '$app/environment';
+import type { NoteItem } from '$types/noteType';
 
-interface NoteItem {
-    code: string,
-    description: string
-}
 
 const LOCAL_STORAGE_KEY = 'notes'
 const initialNoteSotre: NoteItem[] = browser ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || `[]`) ?? [] : [];
@@ -20,7 +17,7 @@ noteLocalStorage.subscribe((value) => {
 
 export const addTodo = (description: string) => {
     noteLocalStorage.update((currentNotes): NoteItem[] => {
-        return [...currentNotes, <NoteItem>{ code: crypto.randomUUID(), description }];
+        return [...currentNotes, <NoteItem>{ code: crypto.randomUUID(), description, createdAt: Date.now() }];
     });
 };
 

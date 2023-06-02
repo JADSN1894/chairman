@@ -1,4 +1,4 @@
-FROM node:20.0.0-bullseye-slim
+FROM node:20.2.0-bullseye-slim
 
 RUN groupmod -g 1000 node && usermod -u 1000 -g 1000 node
 
