@@ -13,6 +13,19 @@
 	// let error: Error | null = null;
 	let userId = '';
 
+	// let ms = 60 * 1000; // 60 seconds;
+	let ms = 1000; // 60 seconds;
+	let currentTime = new Date().getTime();
+	const refreshDateTime = () => {
+		currentTime = new Date().getTime();
+	};
+
+	let clear: ReturnType<typeof setInterval>;
+	$: {
+		clearInterval(clear);
+		clear = setInterval(refreshDateTime, ms);
+	}
+
 	const toastSettingsNoteEdited: ToastSettings = {
 		message: 'Note edited',
 		background: 'variant-filled-success'
@@ -81,9 +94,9 @@
 		modalStore.trigger(modalSettinsDeleteNote);
 	}
 
-	function formatTimeAgoFromTimestamp(timestamp: number): string {
+	function formatTimeAgoFromTimestamp(timestamp: number, currentTime: number): string {
 		let value = '';
-		const diff = (new Date().getTime() - timestamp) / 1000;
+		const diff = (currentTime - timestamp) / 1000;
 		const minutes = Math.floor(diff / 60);
 		const hours = Math.floor(minutes / 60);
 		const days = Math.floor(hours / 24);
@@ -113,8 +126,8 @@
 <!-- Add todo -->
 <!-- <button
 	type="button"
-	class="z-10 fixed right-4 bottom-14 btn btn-sm rounded-full font-extrabold text-md variant-filled {classButtonAddVisible}"
-	on:click|preventDefault|stopPropagation={showAddModal}>+</button
+	class="z-10 fixed right-4 bottom-14 btn btn-sm rounded-full font-extrabold text-md variant-filled"
+	on:click|preventDefault|stopPropagation={() => {}}>+</button
 > -->
 
 {#if $noteLocalStorage.length === 0}
@@ -125,6 +138,7 @@
 	<main class="container mx-auto flex justify-center">
 		<div class="grid grid-cols-1 gap-4 h-full w-full mr-3 ml-2 mb-2 mt-4">
 			{#each $noteLocalStorage as item (item.code)}
+				<!-- Card -->
 				<button
 					class="relative card p-4 w-full h-max rounded-lg border-2"
 					on:click|preventDefault|stopPropagation={() => showEditModal(item.code, item.description)}
@@ -139,7 +153,7 @@
 						<span>{item.description}</span>
 						<span
 							><strong>Created at: </strong>
-							{formatTimeAgoFromTimestamp(item.createdAt) ?? ''}</span
+							{formatTimeAgoFromTimestamp(item.createdAt, currentTime)}</span
 						>
 					</div>
 				</button>
