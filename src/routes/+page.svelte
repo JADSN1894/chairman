@@ -114,10 +114,12 @@
 			value = rtf.format(0 - days, 'day');
 		} else if (hours > 0) {
 			value = rtf.format(0 - hours, 'hour');
+		} else if (Math.floor(diff + 1) === 60) {
+			value = rtf.format(1, 'minute');
 		} else if (minutes > 0) {
 			value = rtf.format(0 - minutes, 'minute');
 		} else {
-			value = rtf.format(0 - diff, 'second');
+			value = rtf.format(Math.floor(0 - diff), 'second');
 		}
 		return value;
 	}
