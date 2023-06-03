@@ -20,18 +20,12 @@
 		Toast,
 		type ModalComponent,
 		LightSwitch,
-		autoModeWatcher,
-		modalStore,
-		type ModalSettings,
-		toastStore,
-		type ToastSettings
+		autoModeWatcher
 	} from '@skeletonlabs/skeleton';
 
 	import ModalEditNote from '../modals/ModalEditNote.svelte';
 	import ModalAddNote from '../modals/ModalAddNote.svelte';
 	import ModalDeleteNote from '../modals/ModalDeleteNote.svelte';
-
-	// let error: Error | null = null;
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		modalAddNote: {

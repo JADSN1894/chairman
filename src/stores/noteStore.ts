@@ -1,4 +1,3 @@
-import { writable } from 'svelte/store'
 import { browser } from '$app/environment';
 import type { NoteItem } from '$types/noteType';
 import { localStorageStore } from '@skeletonlabs/skeleton';

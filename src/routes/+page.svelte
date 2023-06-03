@@ -9,10 +9,6 @@
 		type ToastSettings
 	} from '@skeletonlabs/skeleton';
 
-	// let error: Error | null = null;
-	let userId = '';
-
-	// let ms = 60 * 1000; // 60 seconds;
 	let ms = 1000; // 60 seconds;
 	let currentTime = new Date().getTime();
 	const refreshDateTime = () => {
@@ -25,54 +21,6 @@
 		clear = setInterval(refreshDateTime, ms);
 	}
 
-	const toastSettingsNoteEdited: ToastSettings = {
-		message: 'Note edited',
-		background: 'variant-filled-success'
-	};
-
-	const toastSettingsNoteNotEdited: ToastSettings = {
-		message: 'Note not edited',
-		background: 'variant-filled-error'
-	};
-
-	const modalSettinsEditNote: ModalSettings = {
-		type: 'component',
-		title: 'ACTION',
-		body: 'Edit note',
-		component: 'modalEditNote',
-		response: (isConfirmmed: boolean) => {
-			if (isConfirmmed === true) {
-				toastStore.trigger(toastSettingsNoteEdited);
-			} else {
-				toastStore.trigger(toastSettingsNoteNotEdited);
-			}
-		}
-	};
-
-	const toastSettingsNoteDeleted: ToastSettings = {
-		message: 'Note deleted',
-		background: 'variant-filled-success'
-	};
-
-	const toastSettingsNoteNotDeleted: ToastSettings = {
-		message: 'Note not deleted',
-		background: 'variant-filled-error'
-	};
-
-	const modalSettinsDeleteNote: ModalSettings = {
-		type: 'component',
-		title: 'ACTION',
-		body: 'Are you sure?',
-		component: 'modalDeleteNote',
-		response: (isConfirmmed: boolean) => {
-			if (isConfirmmed === true) {
-				toastStore.trigger(toastSettingsNoteDeleted);
-			} else {
-				toastStore.trigger(toastSettingsNoteNotDeleted);
-			}
-		}
-	};
-
 	const toastSettingsNoteCreated: ToastSettings = {
 		message: 'Note created',
 		background: 'variant-filled-success'
@@ -84,10 +32,10 @@
 	};
 
 	function showAddModal(): void {
-		modalStore.trigger(confirmMoadSettinsAddNote);
+		modalStore.trigger(confirmModalSettinsAddNote);
 	}
 
-	const confirmMoadSettinsAddNote: ModalSettings = {
+	const confirmModalSettinsAddNote: ModalSettings = {
 		type: 'component',
 		title: 'ACTION',
 		body: 'Add note',
@@ -100,16 +48,6 @@
 			}
 		}
 	};
-
-	function showEditModal(code: string, description: string): void {
-		modalSettinsEditNote.meta = { code, description };
-		modalStore.trigger(modalSettinsEditNote);
-	}
-
-	function showDeleteModal(code: string): void {
-		modalSettinsDeleteNote.meta = { code };
-		modalStore.trigger(modalSettinsDeleteNote);
-	}
 </script>
 
 <!-- Add todo -->
