@@ -4,7 +4,7 @@
 
 	// Stores
 	import { modalStore } from '@skeletonlabs/skeleton';
-	import { deleteNote } from '../store/noteStore';
+	import { deleteNote } from '$stores/noteStore';
 
 	function onClickEventeDeleteNote(): void {
 		deleteNote($modalStore[0].meta?.code);

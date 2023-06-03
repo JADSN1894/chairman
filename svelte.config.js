@@ -14,7 +14,13 @@ const config = {
 				precompress: false,
 				strict: false
 			}
+
 		),
+		alias: {
+			'$stores': './src/stores',
+			'$types': './src/types',
+			'$components': './src/components'
+		},
 		csp: {
 			mode: "hash",
 			directives: {

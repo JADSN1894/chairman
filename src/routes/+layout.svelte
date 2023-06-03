@@ -1,7 +1,4 @@
 <script lang="ts">
-	//* ------- SVELTE ------
-	import { goto } from '$app/navigation';
-
 	//* ------- SKELETON ------
 	// This contains the bulk of Skeletons required styles:
 	// Your selected Skeleton theme:
@@ -14,7 +11,7 @@
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import '../app.postcss';
 
-	import { noteLocalStorage } from '../store/noteStore';
+	import { noteLocalStorage } from '$stores/noteStore';
 
 	import {
 		AppBar,
@@ -23,18 +20,12 @@
 		Toast,
 		type ModalComponent,
 		LightSwitch,
-		autoModeWatcher,
-		modalStore,
-		type ModalSettings,
-		toastStore,
-		type ToastSettings
+		autoModeWatcher
 	} from '@skeletonlabs/skeleton';
 
 	import ModalEditNote from '../modals/ModalEditNote.svelte';
 	import ModalAddNote from '../modals/ModalAddNote.svelte';
 	import ModalDeleteNote from '../modals/ModalDeleteNote.svelte';
-
-	// let error: Error | null = null;
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		modalAddNote: {
@@ -50,36 +41,6 @@
 			slot: '<p>Error on show edit modal</p>'
 		}
 	};
-
-	const toastSettingsNoteCreated: ToastSettings = {
-		message: 'Note created',
-		background: 'variant-filled-success'
-	};
-
-	const toastSettingsNoteNotCreated: ToastSettings = {
-		message: 'Note not created',
-		background: 'variant-filled-error'
-	};
-
-	const confirmMoadSettinsAddNote: ModalSettings = {
-		type: 'component',
-		title: 'ACTION',
-		body: 'Add note',
-		component: 'modalAddNote',
-		response: (isConfirmmed: boolean) => {
-			if (isConfirmmed === true) {
-				toastStore.trigger(toastSettingsNoteCreated);
-			} else {
-				toastStore.trigger(toastSettingsNoteNotCreated);
-			}
-		}
-	};
-
-	function showAddModal(): void {
-		modalStore.trigger(confirmMoadSettinsAddNote);
-	}
-
-	$: classButtonAddVisible = $noteLocalStorage.length <= 3 ? 'visible' : 'invisible';
 </script>
 
 <svelte:head>
@@ -88,7 +49,7 @@
 </svelte:head>
 
 <Modal components={modalComponentRegistry} />
-<Toast position="tr" />
+<Toast position="bl" />
 
 <AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
 	<svelte:fragment slot="header">
@@ -97,14 +58,8 @@
 				<h1 class="h1">Chairman</h1>
 			</svelte:fragment>
 
-			<LightSwitch />
-
 			<svelte:fragment slot="trail">
-				<button
-					type="button"
-					class="btn btn-md rounded-lg variant-filled {classButtonAddVisible}"
-					on:click|preventDefault={showAddModal}>ADD</button
-				>
+				<LightSwitch />
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
@@ -114,7 +69,7 @@
 	<svelte:fragment slot="footer">
 		<footer class="bg-surface-100-800-token h-12 flex items-center justify-center">
 			<h1 class="h1 font-bold tracking-wide font-heading-token">
-				{new Date().getFullYear()}
+				{new Date().getFullYear()} : {$noteLocalStorage.length}
 			</h1>
 		</footer>
 	</svelte:fragment>

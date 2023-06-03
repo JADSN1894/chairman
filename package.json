@@ -40,6 +40,7 @@
 		"node": "20"
 	},
 	"dependencies": {
-		"@floating-ui/dom": "~1.2.9"
+		"@floating-ui/dom": "~1.2.9",
+		"svelte-legos": "~0.2.1"
 	}
 }
