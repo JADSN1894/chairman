@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CardTaskComponent from '$components/CardTaskComponent.svelte';
-	import { noteLocalStorage } from '../store/noteStore';
+	import { noteLocalStorage } from '$stores/noteStore';
 
 	import {
 		toastStore,
@@ -9,8 +9,6 @@
 		type ToastSettings
 	} from '@skeletonlabs/skeleton';
 
-	import { preferredLanguages } from 'svelte-legos';
-	import { get } from 'svelte/store';
 	// let error: Error | null = null;
 	let userId = '';
 

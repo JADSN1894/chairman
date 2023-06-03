@@ -5,7 +5,7 @@
 	// Stores
 	import { modalStore } from '@skeletonlabs/skeleton';
 
-	import { addTodo } from '../store/noteStore';
+	import { addTodo } from '$stores/noteStore';
 
 	let noteDescription = '';
 

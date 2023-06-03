@@ -3,7 +3,7 @@
 
 	// Stores
 	import { modalStore } from '@skeletonlabs/skeleton';
-	import { editTodo } from '../store/noteStore';
+	import { editTodo } from '$stores/noteStore';
 
 	// Props
 	/** Exposes parent props to this component. */

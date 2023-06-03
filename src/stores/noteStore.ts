@@ -1,12 +1,12 @@
 import { writable } from 'svelte/store'
 import { browser } from '$app/environment';
 import type { NoteItem } from '$types/noteType';
-
+import { localStorageStore } from '@skeletonlabs/skeleton';
 
 const LOCAL_STORAGE_KEY = 'notes'
-const initialNoteSotre: NoteItem[] = browser ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || `[]`) ?? [] : [];
+// const initialNoteSotre: NoteItem[] = browser ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || `[]`) ?? [] : [];
 
-export const noteLocalStorage = writable<NoteItem[]>(initialNoteSotre)
+export const noteLocalStorage = localStorageStore<NoteItem[]>(LOCAL_STORAGE_KEY, []);
 
 noteLocalStorage.subscribe((value) => {
     if (browser) {

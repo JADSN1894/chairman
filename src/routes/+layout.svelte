@@ -1,7 +1,4 @@
 <script lang="ts">
-	//* ------- SVELTE ------
-	import { goto } from '$app/navigation';
-
 	//* ------- SKELETON ------
 	// This contains the bulk of Skeletons required styles:
 	// Your selected Skeleton theme:
@@ -14,7 +11,7 @@
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import '../app.postcss';
 
-	import { noteLocalStorage } from '../store/noteStore';
+	import { noteLocalStorage } from '$stores/noteStore';
 
 	import {
 		AppBar,
@@ -50,8 +47,6 @@
 			slot: '<p>Error on show edit modal</p>'
 		}
 	};
-
-	$: classButtonAddVisible = $noteLocalStorage.length <= 3 ? 'visible' : 'invisible';
 </script>
 
 <svelte:head>
@@ -60,7 +55,7 @@
 </svelte:head>
 
 <Modal components={modalComponentRegistry} />
-<Toast position="tr" />
+<Toast position="bl" />
 
 <AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
 	<svelte:fragment slot="header">
@@ -69,7 +64,9 @@
 				<h1 class="h1">Chairman</h1>
 			</svelte:fragment>
 
-			<LightSwitch />
+			<svelte:fragment slot="trail">
+				<LightSwitch />
+			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 	<!-- Router Slot -->
@@ -78,7 +75,7 @@
 	<svelte:fragment slot="footer">
 		<footer class="bg-surface-100-800-token h-12 flex items-center justify-center">
 			<h1 class="h1 font-bold tracking-wide font-heading-token">
-				{new Date().getFullYear()}
+				{new Date().getFullYear()} : {$noteLocalStorage.length}
 			</h1>
 		</footer>
 	</svelte:fragment>
