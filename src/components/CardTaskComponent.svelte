@@ -9,6 +9,10 @@
 		type ToastSettings
 	} from '@skeletonlabs/skeleton';
 
+	import { i, language } from '@inlang/sdk-js';
+
+	console.log(language);
+
 	export let taskItem: NoteItem;
 
 	let ms = 1000; // 60 seconds;
@@ -31,9 +35,9 @@
 		const days = Math.floor(hours / 24);
 		const months = Math.floor(days / 30);
 		const years = Math.floor(months / 12);
-		const languages = get(preferredLanguages());
+		// const languages = get(preferredLanguages());
 
-		const rtf = new Intl.RelativeTimeFormat(languages[0], { style: 'short', numeric: 'auto' });
+		const rtf = new Intl.RelativeTimeFormat(language, { style: 'short', numeric: 'auto' });
 
 		if (years > 0) {
 			value = rtf.format(0 - years, 'year');
@@ -117,14 +121,14 @@
 >
 	<button
 		type="button"
-		class="absolute -top-2 -right-2 z-10 h-6 w-6 rounded-full variant-filled"
+		class="absolute -top-2 -right-2 h-6 w-6 rounded-full variant-filled"
 		on:click|preventDefault|stopPropagation={() => showDeleteModal(taskItem.code)}>x</button
 	>
 	<div class="flex flex-col items-start justify-start gap-y-2">
 		<code class="code">{taskItem.code}</code>
 		<span>{taskItem.description}</span>
 		<span
-			><strong>Created at: </strong>
+			><strong>{i('createdAt')}</strong>
 			{formatTimeAgoFromTimestamp(taskItem.createdAt, currentTime)}</span
 		>
 	</div>

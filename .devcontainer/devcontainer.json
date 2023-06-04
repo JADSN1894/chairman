@@ -30,7 +30,8 @@
 				"yoavbls.pretty-ts-errors",
 				"statelyai.stately-vscode",
 				"vunguyentuan.vscode-postcss",
-				"henrikvilhelmberglund.vscode-svelte-snippets-henrikvilhelmberglund"
+				"henrikvilhelmberglund.vscode-svelte-snippets-henrikvilhelmberglund",
+				"inlang.vs-code-extension"
 			]
 		}
 	}

@@ -17,6 +17,7 @@ const config = {
 
 		),
 		alias: {
+			'$modals': './src/modals',
 			'$stores': './src/stores',
 			'$types': './src/types',
 			'$components': './src/components'

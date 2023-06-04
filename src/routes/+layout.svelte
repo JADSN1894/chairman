@@ -1,17 +1,9 @@
 <script lang="ts">
-	//* ------- SKELETON ------
-	// This contains the bulk of Skeletons required styles:
-	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-
-	// This contains the bulk of Skeletons required styles:
-	// NOTE: this will be renamed skeleton.css in the v2.x release.
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 
-	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
+	// Application's global stylesheet
 	import '../app.postcss';
-
-	import { noteLocalStorage } from '$stores/noteStore';
 
 	import {
 		AppBar,
@@ -20,12 +12,24 @@
 		Toast,
 		type ModalComponent,
 		LightSwitch,
-		autoModeWatcher
+		autoModeWatcher,
+		storePopup,
+		type PopupSettings,
+		popup
 	} from '@skeletonlabs/skeleton';
 
-	import ModalEditNote from '../modals/ModalEditNote.svelte';
-	import ModalAddNote from '../modals/ModalAddNote.svelte';
-	import ModalDeleteNote from '../modals/ModalDeleteNote.svelte';
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+
+	import ModalEditNote from '$modals/ModalEditNote.svelte';
+	import ModalAddNote from '$modals/ModalAddNote.svelte';
+	import ModalDeleteNote from '$modals/ModalDeleteNote.svelte';
+
+	import { noteLocalStorage } from '$stores/noteStore';
+	import { onMount } from 'svelte';
+	import { languages, i, switchLanguage, language as currentLanguage } from '@inlang/sdk-js';
+
+	import 'boxicons';
+	import Svg from '$components/Svg.svelte';
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		modalAddNote: {
@@ -41,12 +45,19 @@
 			slot: '<p>Error on show edit modal</p>'
 		}
 	};
-</script>
 
-<svelte:head>
-	<title>Chairman</title>
-	{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}
-</svelte:head>
+	const popupClick: PopupSettings = {
+		event: 'click',
+		target: 'popupClick',
+		placement: 'bottom'
+	};
+
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+
+	onMount(() => {
+		autoModeWatcher();
+	});
+</script>
 
 <Modal components={modalComponentRegistry} />
 <Toast position="bl" />
@@ -57,6 +68,32 @@
 			<svelte:fragment slot="lead">
 				<h1 class="h1">Chairman</h1>
 			</svelte:fragment>
+
+			<div class="card p-4 variant-filled" data-popup="popupClick">
+				<div class="btn-group-vertical btn-gro variant-filled">
+					{#each languages as language}
+						<button
+							type="button"
+							class:font-bold={language === (currentLanguage ?? 'en')}
+							class="button btn-sm uppercase"
+							on:click|preventDefault|stopPropagation={() => {
+								switchLanguage(language);
+							}}>{language}</button
+						>
+					{/each}
+				</div>
+				<div class="arrow variant-filled" />
+			</div>
+
+			<!-- <button class="xs:ml-16 btn btn-sm variant-filled font-bold uppercase" use:popup={popupClick}
+				>{i('settings')}</button
+			> -->
+
+			<div class="flex items-center justify-center">
+				<button use:popup={popupClick} class="xs:ml-16">
+					<Svg />
+				</button>
+			</div>
 
 			<svelte:fragment slot="trail">
 				<LightSwitch />
