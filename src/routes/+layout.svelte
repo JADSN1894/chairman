@@ -28,8 +28,7 @@
 	import { onMount } from 'svelte';
 	import { languages, i, switchLanguage, language as currentLanguage } from '@inlang/sdk-js';
 
-	import 'boxicons';
-	import Svg from '$components/Svg.svelte';
+	import IconSettingsSvg from '$components/IconSettingsSvg.svelte';
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		modalAddNote: {
@@ -85,13 +84,9 @@
 				<div class="arrow variant-filled" />
 			</div>
 
-			<!-- <button class="xs:ml-16 btn btn-sm variant-filled font-bold uppercase" use:popup={popupClick}
-				>{i('settings')}</button
-			> -->
-
 			<div class="flex items-center justify-center">
 				<button use:popup={popupClick} class="xs:ml-16">
-					<Svg />
+					<IconSettingsSvg />
 				</button>
 			</div>
 

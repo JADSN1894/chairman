@@ -7,6 +7,7 @@ dev:
    @npm run dev
 
 prod:
+   @rm -rf build
    @npm run build
    @python3 -m http.server --directory build
 
