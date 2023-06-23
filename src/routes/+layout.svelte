@@ -15,7 +15,9 @@
 		autoModeWatcher,
 		storePopup,
 		type PopupSettings,
-		popup
+		popup,
+		setModeCurrent,
+		setModeUserPrefers
 	} from '@skeletonlabs/skeleton';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -54,7 +56,13 @@
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	onMount(() => {
-		autoModeWatcher();
+		//* Skeleton docs: Light mode is represented by true, while dark mode is represented by false.
+
+		//* Set default theme mode to light
+		setModeCurrent(true);
+
+		//* Set default theme mode of LightSwitch component to light
+		setModeUserPrefers(true);
 	});
 </script>
 

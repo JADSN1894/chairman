@@ -1,16 +1,46 @@
+// export async function defineConfig(env) {
+// 	const { default: pluginJson } = await env.$import(
+// 		"https://cdn.jsdelivr.net/gh/samuelstroschein/inlang-plugin-json@2.4.0/dist/index.js",
+// 	)
+
+// 	const { default: sdkPlugin } = await env.$import(
+// 		"https://cdn.jsdelivr.net/npm/@inlang/sdk-js-plugin@0.6.6/dist/index.js"
+// 	)
+
+// 	return {
+// 		referenceLanguage: "en",
+// 		plugins: [
+// 			pluginJson({
+// 				pathPattern: "./languages/{language}.json",
+// 			}),
+// 			sdkPlugin({
+// 				languageNegotiation: {
+// 					strategies: [
+// 						{ type: "localStorage" },
+// 					]
+// 				}
+// 			}),
+// 		],
+// 	}
+// }
+
 export async function defineConfig(env) {
-	const { default: pluginJson } = await env.$import(
-		"https://cdn.jsdelivr.net/gh/samuelstroschein/inlang-plugin-json@2.4.0/dist/index.js",
+	const { default: jsonPlugin } = await env.$import(
+		"https://cdn.jsdelivr.net/npm/@inlang/plugin-json@3/dist/index.js",
 	)
 
 	const { default: sdkPlugin } = await env.$import(
-		"https://cdn.jsdelivr.net/npm/@inlang/sdk-js-plugin@0.6.4/dist/index.js"
+		"https://cdn.jsdelivr.net/npm/@inlang/sdk-js-plugin@0.6.6/dist/index.js"
+	)
+
+	const { default: standardLintRules } = await env.$import(
+		"https://cdn.jsdelivr.net/npm/@inlang/plugin-standard-lint-rules@3/dist/index.js",
 	)
 
 	return {
 		referenceLanguage: "en",
 		plugins: [
-			pluginJson({
+			jsonPlugin({
 				pathPattern: "./languages/{language}.json",
 			}),
 			sdkPlugin({
@@ -20,6 +50,7 @@ export async function defineConfig(env) {
 					]
 				}
 			}),
+			standardLintRules(),
 		],
 	}
 }

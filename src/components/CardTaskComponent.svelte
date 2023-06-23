@@ -1,7 +1,5 @@
 <script lang="ts">
 	import type { NoteItem } from '$types/noteType';
-	import { preferredLanguages } from 'svelte-legos';
-	import { get } from 'svelte/store';
 	import {
 		toastStore,
 		type ModalSettings,
