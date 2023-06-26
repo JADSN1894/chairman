@@ -79,14 +79,13 @@
 			<div class="card p-4 variant-filled" data-popup="popupClick">
 				<div class="btn-group-vertical btn-gro variant-filled">
 					{#each Object.values(Language) as language}
-						{@const lang = language.toLowerCase()}
 						<button
 							type="button"
-							class:font-bold={lang === ($languageLocalStorage.toLowerCase() ?? 'en')}
+							class:font-bold={language === ($languageLocalStorage ?? Language.EN.toString())}
 							class="button btn-sm uppercase"
 							on:click|preventDefault|stopPropagation={() => {
-								languageLocalStorage.set(stringToLanguage(lang));
-							}}>{lang}</button
+								languageLocalStorage.set(stringToLanguage(language));
+							}}>{language}</button
 						>
 					{/each}
 				</div>

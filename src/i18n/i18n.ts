@@ -3,21 +3,22 @@ export interface Translation {
     noTasks: string
 }
 
+
 export enum Language {
-    EN = 'en',
-    ES = 'es',
-    PT = 'pt'
+    EN = 'en-US',
+    ES = 'es-ar',
+    PT = 'pt-BR'
 }
 
 export function stringToLanguage(language: string): Language {
-    switch (language.trim().toLowerCase()) {
-        case 'en':
+    switch (language) {
+        case 'en-US':
             return Language.EN
 
-        case 'es':
+        case 'es-ar':
             return Language.ES
 
-        case 'pt':
+        case 'pt-BR':
             return Language.PT
 
         default:
