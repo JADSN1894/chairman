@@ -1,17 +1,9 @@
 <script lang="ts">
-	//* ------- SKELETON ------
-	// This contains the bulk of Skeletons required styles:
-	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-
-	// This contains the bulk of Skeletons required styles:
-	// NOTE: this will be renamed skeleton.css in the v2.x release.
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 
-	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
+	// Application's global stylesheet
 	import '../app.postcss';
-
-	import { noteLocalStorage } from '$stores/noteStore';
 
 	import {
 		AppBar,
@@ -20,12 +12,25 @@
 		Toast,
 		type ModalComponent,
 		LightSwitch,
-		autoModeWatcher
+		storePopup,
+		type PopupSettings,
+		popup,
+		setModeCurrent,
+		setModeUserPrefers
 	} from '@skeletonlabs/skeleton';
 
-	import ModalEditNote from '../modals/ModalEditNote.svelte';
-	import ModalAddNote from '../modals/ModalAddNote.svelte';
-	import ModalDeleteNote from '../modals/ModalDeleteNote.svelte';
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+
+	import ModalEditNote from '$modals/ModalEditNote.svelte';
+	import ModalAddNote from '$modals/ModalAddNote.svelte';
+	import ModalDeleteNote from '$modals/ModalDeleteNote.svelte';
+
+	import { noteLocalStorage } from '$stores/noteStore';
+	import { onMount } from 'svelte';
+
+	import IconSettingsSvg from '$components/IconSettingsSvg.svelte';
+	import { languageLocalStorage } from '$stores/i18nStore';
+	import { Language, stringToLanguage } from '$i18n/i18n';
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		modalAddNote: {
@@ -41,12 +46,25 @@
 			slot: '<p>Error on show edit modal</p>'
 		}
 	};
-</script>
 
-<svelte:head>
-	<title>Chairman</title>
-	{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}
-</svelte:head>
+	const popupClick: PopupSettings = {
+		event: 'click',
+		target: 'popupClick',
+		placement: 'bottom'
+	};
+
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+
+	onMount(() => {
+		//* Skeleton docs: Light mode is represented by true, while dark mode is represented by false.
+
+		//* Set default theme mode to light
+		setModeCurrent(true);
+
+		//* Set default theme mode of LightSwitch component to light
+		setModeUserPrefers(true);
+	});
+</script>
 
 <Modal components={modalComponentRegistry} />
 <Toast position="bl" />
@@ -57,6 +75,28 @@
 			<svelte:fragment slot="lead">
 				<h1 class="h1">Chairman</h1>
 			</svelte:fragment>
+
+			<div class="card p-4 variant-filled" data-popup="popupClick">
+				<div class="btn-group-vertical btn-gro variant-filled">
+					{#each Object.values(Language) as language}
+						<button
+							type="button"
+							class:font-bold={language === ($languageLocalStorage ?? Language.EN.toString())}
+							class="button btn-sm uppercase"
+							on:click|preventDefault|stopPropagation={() => {
+								languageLocalStorage.set(stringToLanguage(language));
+							}}>{language}</button
+						>
+					{/each}
+				</div>
+				<div class="arrow variant-filled" />
+			</div>
+
+			<div class="flex items-center justify-center">
+				<button use:popup={popupClick} class="xs:ml-16">
+					<IconSettingsSvg />
+				</button>
+			</div>
 
 			<svelte:fragment slot="trail">
 				<LightSwitch />

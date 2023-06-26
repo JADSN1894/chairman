@@ -1,13 +1,8 @@
 <script lang="ts">
+	import { languageLocalStorage } from '$stores/i18nStore';
+	import { translationLocalStorage } from '$stores/translationStore';
 	import type { NoteItem } from '$types/noteType';
-	import { preferredLanguages } from 'svelte-legos';
-	import { get } from 'svelte/store';
-	import {
-		toastStore,
-		type ModalSettings,
-		modalStore,
-		type ToastSettings
-	} from '@skeletonlabs/skeleton';
+	import { toastStore, type ModalSettings, modalStore } from '@skeletonlabs/skeleton';
 
 	export let taskItem: NoteItem;
 
@@ -31,9 +26,11 @@
 		const days = Math.floor(hours / 24);
 		const months = Math.floor(days / 30);
 		const years = Math.floor(months / 12);
-		const languages = get(preferredLanguages());
 
-		const rtf = new Intl.RelativeTimeFormat(languages[0], { style: 'short', numeric: 'auto' });
+		const rtf = new Intl.RelativeTimeFormat($languageLocalStorage.toString(), {
+			style: 'short',
+			numeric: 'auto'
+		});
 
 		if (years > 0) {
 			value = rtf.format(0 - years, 'year');
@@ -52,26 +49,21 @@
 		}
 		return value;
 	}
-	const toastSettingsNoteEdited: ToastSettings = {
-		message: 'Note edited',
-		background: 'variant-filled-success'
-	};
-
-	const toastSettingsNoteNotEdited: ToastSettings = {
-		message: 'Note not edited',
-		background: 'variant-filled-error'
-	};
 
 	const modalSettinsEditNote: ModalSettings = {
 		type: 'component',
-		title: 'ACTION',
-		body: 'Edit note',
 		component: 'modalEditNote',
 		response: (isConfirmmed: boolean) => {
 			if (isConfirmmed === true) {
-				toastStore.trigger(toastSettingsNoteEdited);
+				toastStore.trigger({
+					message: $translationLocalStorage.task_updated,
+					background: 'variant-filled-success'
+				});
 			} else {
-				toastStore.trigger(toastSettingsNoteNotEdited);
+				toastStore.trigger({
+					message: $translationLocalStorage.task_not_updated,
+					background: 'variant-filled-error'
+				});
 			}
 		}
 	};
@@ -81,26 +73,20 @@
 		modalStore.trigger(modalSettinsEditNote);
 	}
 
-	const toastSettingsNoteDeleted: ToastSettings = {
-		message: 'Note deleted',
-		background: 'variant-filled-success'
-	};
-
-	const toastSettingsNoteNotDeleted: ToastSettings = {
-		message: 'Note not deleted',
-		background: 'variant-filled-error'
-	};
-
 	const modalSettinsDeleteNote: ModalSettings = {
 		type: 'component',
-		title: 'ACTION',
-		body: 'Are you sure?',
 		component: 'modalDeleteNote',
 		response: (isConfirmmed: boolean) => {
 			if (isConfirmmed === true) {
-				toastStore.trigger(toastSettingsNoteDeleted);
+				toastStore.trigger({
+					message: $translationLocalStorage.task_deleted,
+					background: 'variant-filled-success'
+				});
 			} else {
-				toastStore.trigger(toastSettingsNoteNotDeleted);
+				toastStore.trigger({
+					message: $translationLocalStorage.task_not_deleted,
+					background: 'variant-filled-error'
+				});
 			}
 		}
 	};
@@ -117,15 +103,15 @@
 >
 	<button
 		type="button"
-		class="absolute -top-2 -right-2 z-10 h-6 w-6 rounded-full variant-filled"
+		class="absolute -top-2 -right-2 h-6 w-6 rounded-full variant-filled"
 		on:click|preventDefault|stopPropagation={() => showDeleteModal(taskItem.code)}>x</button
 	>
 	<div class="flex flex-col items-start justify-start gap-y-2">
 		<code class="code">{taskItem.code}</code>
 		<span>{taskItem.description}</span>
-		<span
-			><strong>Created at: </strong>
-			{formatTimeAgoFromTimestamp(taskItem.createdAt, currentTime)}</span
-		>
+		<span class="font-bold"
+			>{$translationLocalStorage.createdAt}
+			{formatTimeAgoFromTimestamp(taskItem.createdAt, currentTime)}
+		</span>
 	</div>
 </button>

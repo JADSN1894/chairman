@@ -17,9 +17,11 @@ const config = {
 
 		),
 		alias: {
+			'$modals': './src/modals',
 			'$stores': './src/stores',
 			'$types': './src/types',
-			'$components': './src/components'
+			'$components': './src/components',
+			'$i18n': './src/i18n'
 		},
 		csp: {
 			mode: "hash",
