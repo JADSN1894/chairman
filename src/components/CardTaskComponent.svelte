@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { languageLocalStorage } from '$stores/i18nStore';
 	import type { NoteItem } from '$types/noteType';
 	import {
 		toastStore,
@@ -6,10 +7,6 @@
 		modalStore,
 		type ToastSettings
 	} from '@skeletonlabs/skeleton';
-
-	import { i, language } from '@inlang/sdk-js';
-
-	console.log(language);
 
 	export let taskItem: NoteItem;
 
@@ -35,7 +32,10 @@
 		const years = Math.floor(months / 12);
 		// const languages = get(preferredLanguages());
 
-		const rtf = new Intl.RelativeTimeFormat(language, { style: 'short', numeric: 'auto' });
+		const rtf = new Intl.RelativeTimeFormat($languageLocalStorage.toString(), {
+			style: 'short',
+			numeric: 'auto'
+		});
 
 		if (years > 0) {
 			value = rtf.format(0 - years, 'year');
@@ -126,7 +126,7 @@
 		<code class="code">{taskItem.code}</code>
 		<span>{taskItem.description}</span>
 		<span
-			><strong>{i('createdAt')}</strong>
+			><strong>T-CREATED_AT</strong>
 			{formatTimeAgoFromTimestamp(taskItem.createdAt, currentTime)}</span
 		>
 	</div>

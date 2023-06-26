@@ -12,7 +12,6 @@
 		Toast,
 		type ModalComponent,
 		LightSwitch,
-		autoModeWatcher,
 		storePopup,
 		type PopupSettings,
 		popup,
@@ -28,9 +27,10 @@
 
 	import { noteLocalStorage } from '$stores/noteStore';
 	import { onMount } from 'svelte';
-	import { languages, i, switchLanguage, language as currentLanguage } from '@inlang/sdk-js';
 
 	import IconSettingsSvg from '$components/IconSettingsSvg.svelte';
+	import { languageLocalStorage } from '$stores/i18nStore';
+	import { Language, stringToLanguage } from '$i18n/i18n';
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		modalAddNote: {
@@ -78,14 +78,15 @@
 
 			<div class="card p-4 variant-filled" data-popup="popupClick">
 				<div class="btn-group-vertical btn-gro variant-filled">
-					{#each languages as language}
+					{#each Object.values(Language) as language}
+						{@const lang = language.toLowerCase()}
 						<button
 							type="button"
-							class:font-bold={language === (currentLanguage ?? 'en')}
+							class:font-bold={lang === ($languageLocalStorage.toLowerCase() ?? 'en')}
 							class="button btn-sm uppercase"
 							on:click|preventDefault|stopPropagation={() => {
-								switchLanguage(language);
-							}}>{language}</button
+								languageLocalStorage.set(stringToLanguage(lang));
+							}}>{lang}</button
 						>
 					{/each}
 				</div>
