@@ -3,12 +3,7 @@
 	import { noteLocalStorage } from '$stores/noteStore';
 	import { translationLocalStorage } from '$stores/translationStore';
 
-	import {
-		toastStore,
-		type ModalSettings,
-		modalStore,
-		type ToastSettings
-	} from '@skeletonlabs/skeleton';
+	import { toastStore, type ModalSettings, modalStore } from '@skeletonlabs/skeleton';
 
 	const ms = 1000; // 60 seconds;
 	let currentTime = new Date().getTime();
@@ -22,30 +17,24 @@
 		clear = setInterval(refreshDateTime, ms);
 	}
 
-	const toastSettingsNoteCreated: ToastSettings = {
-		message: 'Note created',
-		background: 'variant-filled-success'
-	};
-
-	const toastSettingsNoteNotCreated: ToastSettings = {
-		message: 'Note not created',
-		background: 'variant-filled-error'
-	};
-
 	function showAddModal(): void {
 		modalStore.trigger(confirmModalSettinsAddNote);
 	}
 
 	const confirmModalSettinsAddNote: ModalSettings = {
 		type: 'component',
-		title: 'ACTION',
-		body: 'Add note',
 		component: 'modalAddNote',
 		response: (isConfirmmed: boolean) => {
 			if (isConfirmmed === true) {
-				toastStore.trigger(toastSettingsNoteCreated);
+				toastStore.trigger({
+					message: $translationLocalStorage.task_created,
+					background: 'variant-filled-success'
+				});
 			} else {
-				toastStore.trigger(toastSettingsNoteNotCreated);
+				toastStore.trigger({
+					message: $translationLocalStorage.task_not_created,
+					background: 'variant-filled-error'
+				});
 			}
 		}
 	};

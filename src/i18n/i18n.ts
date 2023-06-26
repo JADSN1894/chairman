@@ -1,9 +1,3 @@
-export interface Translation {
-    createdAt: string,
-    noTasks: string
-}
-
-
 export enum Language {
     EN = 'en-US',
     ES = 'es-ar',

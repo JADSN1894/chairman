@@ -4,6 +4,7 @@
 	// Stores
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import { editTodo } from '$stores/noteStore';
+	import { translationLocalStorage } from '$stores/translationStore';
 
 	// Props
 	/** Exposes parent props to this component. */
@@ -25,22 +26,28 @@
 
 {#if $modalStore[0]}
 	<div class="modal-backdrop card p-4 w-modal shadow-xl space-y-4">
-		<header class="text-2xl font-bold">{$modalStore[0].title ?? '(title missing)'}</header>
-		<article>{$modalStore[0].body ?? '(body missing)'}</article>
-		<textarea
-			class="input rounded-none resize-none overflow-x-visible border-2"
-			placeholder="Note description"
-			bind:value={noteDescription}
-		/>
+		<header class="text-2xl font-bold">
+			<h2 class="h2 uppercase">{$translationLocalStorage.action}</h2>
+		</header>
+		<main>
+			{$translationLocalStorage.edit_task}
+			<textarea
+				class="input rounded-none resize-none overflow-x-visible border-2 mt-1"
+				placeholder="Note description"
+				bind:value={noteDescription}
+			/>
+		</main>
 		<footer class="modal-footer {parent.regionFooter}">
 			<button
-				class="btn {parent.buttonNeutral}"
-				on:click|preventDefault|stopPropagation={parent.onClose}>No</button
-			>
+				class="btn capitalize {parent.buttonNeutral}"
+				on:click|preventDefault|stopPropagation={parent.onClose}
+				>{$translationLocalStorage.no}
+			</button>
 			<button
-				class="btn {parent.buttonPositive}"
-				on:click|preventDefault|stopPropagation={onClickEventeEditNote}>Edit</button
-			>
+				class="btn capitalize {parent.buttonPositive}"
+				on:click|preventDefault|stopPropagation={onClickEventeEditNote}
+				>{$translationLocalStorage.update}
+			</button>
 		</footer>
 	</div>
 {/if}
