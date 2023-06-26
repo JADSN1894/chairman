@@ -60,7 +60,7 @@
 
 {#if $noteLocalStorage.length === 0}
 	<main class="h-full flex justify-center items-center">
-		<h2 class="font-bold text-2xl uppercase h2">{$translationLocalStorage.title}</h2>
+		<h2 class="h2 font-bold uppercase">{$translationLocalStorage.noTasks}</h2>
 	</main>
 {:else}
 	<main class="container mx-auto flex justify-center">

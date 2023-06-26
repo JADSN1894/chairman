@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { languageLocalStorage } from '$stores/i18nStore';
+	import { translationLocalStorage } from '$stores/translationStore';
 	import type { NoteItem } from '$types/noteType';
 	import {
 		toastStore,
@@ -125,9 +126,9 @@
 	<div class="flex flex-col items-start justify-start gap-y-2">
 		<code class="code">{taskItem.code}</code>
 		<span>{taskItem.description}</span>
-		<span
-			><strong>T-CREATED_AT</strong>
-			{formatTimeAgoFromTimestamp(taskItem.createdAt, currentTime)}</span
-		>
+		<span class="font-bold"
+			>{$translationLocalStorage.createdAt}
+			{formatTimeAgoFromTimestamp(taskItem.createdAt, currentTime)}
+		</span>
 	</div>
 </button>

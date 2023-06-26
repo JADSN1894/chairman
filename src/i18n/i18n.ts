@@ -1,15 +1,12 @@
-import { languageLocalStorage } from "$stores/i18nStore";
-import { derived } from "svelte/store";
-
 export interface Translation {
-    title: string,
-    welcome: string,
-    time: string,
+    createdAt: string,
+    noTasks: string
 }
 
 export enum Language {
     EN = 'en',
-    ES = 'es'
+    ES = 'es',
+    PT = 'pt'
 }
 
 export function stringToLanguage(language: string): Language {
@@ -20,10 +17,10 @@ export function stringToLanguage(language: string): Language {
         case 'es':
             return Language.ES
 
+        case 'pt':
+            return Language.PT
+
         default:
             return Language.EN
     }
 }
-
-
-

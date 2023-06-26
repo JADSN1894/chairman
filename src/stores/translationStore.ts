@@ -5,26 +5,27 @@ import { languageLocalStorage } from "./i18nStore";
 export const translationLocalStorage = derived(languageLocalStorage, ($languageLocalStorage) => {
     switch ($languageLocalStorage) {
         case Language.EN:
-
             return <Translation>{
-                title: "en",
-                welcome: "en",
-                time: "en",
+                createdAt: "Created at",
+                noTasks: "No tasks"
             }
 
         case Language.ES:
-
             return <Translation>{
-                title: "es",
-                welcome: "es",
-                time: "es",
+                createdAt: "Creado en",
+                noTasks: "Sin tareas"
+            }
+
+        case Language.PT:
+            return <Translation>{
+                createdAt: "Criado em",
+                noTasks: "Sem tarefas"
             }
 
         default:
             return <Translation>{
-                title: 'UNKNOWN',
-                welcome: 'UNKNOWN',
-                time: 'UNKNOWN',
+                createdAt: "Unknown",
+                noTasks: "Unknown"
             }
     }
 });
