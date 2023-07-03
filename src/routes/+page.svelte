@@ -1,9 +1,10 @@
 <script lang="ts">
 	import CardTaskComponent from '$components/CardTaskComponent.svelte';
+	import CopyIcon from '$icons/CopyIcon.svelte';
 	import { noteLocalStorage } from '$stores/noteStore';
 	import { translationLocalStorage } from '$stores/translationStore';
 
-	import { toastStore, type ModalSettings, modalStore } from '@skeletonlabs/skeleton';
+	import { toastStore, type ModalSettings, modalStore, clipboard } from '@skeletonlabs/skeleton';
 
 	const ms = 1000; // 60 seconds;
 	let currentTime = new Date().getTime();
@@ -40,12 +41,28 @@
 	};
 </script>
 
-<!-- Add todo -->
+<!-- Add task -->
 <button
 	type="button"
 	class="z-10 fixed right-4 bottom-14 btn btn-sm rounded-full font-extrabold text-md variant-filled"
-	on:click|preventDefault|stopPropagation={() => showAddModal()}>+</button
->
+	on:click|preventDefault|stopPropagation={() => showAddModal()}
+	>+
+</button>
+
+<!-- Copy tasks -->
+<!-- <button
+	type="button"
+	class="z-10 fixed left-4 bottom-14 btn btn-sm rounded-full font-extrabold text-md variant-filled"
+	use:clipboard={JSON.stringify($noteLocalStorage)}
+	>Copy
+</button> -->
+<!-- <CopyIcon referenceClipboard="" /> -->
+
+<CopyIcon
+	class="z-10 fixed left-4 bottom-14 btn btn-sm rounded-full font-extrabold text-md variant-filled"
+	size={20}
+	referenceClipboard={JSON.stringify($noteLocalStorage)}
+/>
 
 {#if $noteLocalStorage.length === 0}
 	<main class="h-full flex justify-center items-center">

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { version } from '$app/environment';
+
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 
@@ -20,6 +22,7 @@
 	} from '@skeletonlabs/skeleton';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import {} from '@skeletonlabs/skeleton';
 
 	import ModalEditNote from '$modals/ModalEditNote.svelte';
 	import ModalAddNote from '$modals/ModalAddNote.svelte';
@@ -107,10 +110,14 @@
 	<slot />
 	<!-- ---- / ---- -->
 	<svelte:fragment slot="footer">
-		<footer class="bg-surface-100-800-token h-12 flex items-center justify-center">
-			<h1 class="h1 font-bold tracking-wide font-heading-token">
+		<footer class="bg-surface-100-800-token h-12 flex items-center justify-between px-2">
+			<h6 class="h6 font-bold tracking-wide font-heading-token">
+				{version}
+			</h6>
+
+			<h6 class="h6 font-bold tracking-wide font-heading-token">
 				{new Date().getFullYear()} : {$noteLocalStorage.length}
-			</h1>
+			</h6>
 		</footer>
 	</svelte:fragment>
 </AppShell>
