@@ -32,7 +32,8 @@ const config = {
 			'$types': './src/types',
 			'$components': './src/components',
 			'$i18n': './src/i18n',
-			'$icons': './src/icons'
+			'$icons': './src/icons',
+			'$helpers': './src/helpers'
 		},
 		csp: {
 			mode: "hash",

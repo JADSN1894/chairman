@@ -1,9 +1,11 @@
 <script lang="ts">
 	import CardTaskComponent from '$components/CardTaskComponent.svelte';
+	import { getDataFromFile } from '$helpers/fileHelper';
 	import CloudUpload from '$icons/monoicons/CloudUpload.svelte';
 	import CopyIcon from '$icons/monoicons/CopyIcon.svelte';
 	import { noteLocalStorage } from '$stores/noteStore';
 	import { translationLocalStorage } from '$stores/translationStore';
+	import type { NoteItem } from '$types/noteType';
 
 	import { toastStore, type ModalSettings, modalStore, FileDropzone } from '@skeletonlabs/skeleton';
 
@@ -43,15 +45,22 @@
 		}
 	};
 
-	async function onChangeHandler(event: Event): Promise<void> {
+	async function onSelectedFile(event: Event): Promise<void> {
 		const target = event.target as unknown as { files: File[] };
-		const file: File = target?.files[0];
-		const arrBuf = await file.arrayBuffer();
-		const enc = new TextDecoder('utf-8');
-		const arr = new Uint8Array(arrBuf);
-		const decodedData = enc.decode(arr);
-		const tasksFromFile = JSON.parse(decodedData);
-		noteLocalStorage.set(tasksFromFile);
+		const selectedFile: File = target?.files[0];
+
+		const tasksFromFile: NoteItem[] = await getDataFromFile(selectedFile);
+		const withNewCode: NoteItem[] = tasksFromFile.map((noteItem: NoteItem) => {
+			noteItem.code = crypto.randomUUID();
+			return noteItem;
+		});
+
+		noteLocalStorage.update((oldValue) => oldValue.concat(withNewCode));
+
+		toastStore.trigger({
+			message: 'Tasks imported',
+			background: 'variant-filled-success'
+		});
 	}
 </script>
 
@@ -70,13 +79,13 @@
 />
 
 {#if $noteLocalStorage.length === 0}
-	<main class="h-full px-2 flex justify-center items-center">
+	<main class="flex justify-center items-center h-full px-2">
 		<!-- <h2 class="h2 font-bold uppercase">{$translationLocalStorage.noTasks}</h2> -->
 		<FileDropzone
 			name="files"
 			multiple={false}
 			accept="application/JSON"
-			on:change={onChangeHandler}
+			on:change={onSelectedFile}
 			bind:files
 		>
 			<svelte:fragment slot="lead">

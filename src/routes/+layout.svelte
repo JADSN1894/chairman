@@ -18,11 +18,11 @@
 		type PopupSettings,
 		popup,
 		setModeCurrent,
-		setModeUserPrefers
+		setModeUserPrefers,
+		toastStore
 	} from '@skeletonlabs/skeleton';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import {} from '@skeletonlabs/skeleton';
 
 	import ModalEditNote from '$modals/ModalEditNote.svelte';
 	import ModalAddNote from '$modals/ModalAddNote.svelte';
@@ -31,9 +31,14 @@
 	import { noteLocalStorage } from '$stores/noteStore';
 	import { onMount } from 'svelte';
 
-	import IconSettingsSvg from '$components/IconSettingsSvg.svelte';
+	import IconSettingsSvg from '$icons/monoicons/IconSettingsSvg.svelte';
 	import { languageLocalStorage } from '$stores/i18nStore';
 	import { Language, stringToLanguage } from '$i18n/i18n';
+	import CloudUpload from '$icons/monoicons/CloudUpload.svelte';
+	import { getDataFromFile } from '$helpers/fileHelper';
+	import type { NoteItem } from '$types/noteType';
+
+	let fileInput: HTMLInputElement;
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		modalAddNote: {
@@ -50,10 +55,28 @@
 		}
 	};
 
+	async function addItemsToLocalStorageFromFile(): Promise<void> {
+		const innerFiles = fileInput.files;
+		if (innerFiles !== null) {
+			const selectedFile: File = innerFiles[0];
+			const tasksFromFile: NoteItem[] = await getDataFromFile(selectedFile);
+			const withNewCode: NoteItem[] = tasksFromFile.map((noteItem: NoteItem) => {
+				noteItem.code = crypto.randomUUID();
+				return noteItem;
+			});
+
+			noteLocalStorage.update((oldValue) => oldValue.concat(withNewCode));
+
+			toastStore.trigger({
+				message: 'Tasks imported',
+				background: 'variant-filled-success'
+			});
+		}
+	}
 	const popupClick: PopupSettings = {
 		event: 'click',
 		target: 'popupClick',
-		placement: 'bottom'
+		placement: 'top'
 	};
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
@@ -96,11 +119,11 @@
 				<div class="arrow variant-filled" />
 			</div>
 
-			<div class="flex items-center justify-center">
+			<!-- <div class="flex items-center justify-center">
 				<button use:popup={popupClick} class="xs:ml-16">
 					<IconSettingsSvg />
 				</button>
-			</div>
+			</div> -->
 
 			<svelte:fragment slot="trail">
 				<LightSwitch />
@@ -115,6 +138,28 @@
 			<h6 class="h6 font-bold tracking-wide font-heading-token">
 				{version}
 			</h6>
+
+			<div class="flex items-center justify-center gap-x-2">
+				<button use:popup={popupClick} class="xs:ml-16 flex items-center justify-center">
+					<IconSettingsSvg />
+				</button>
+				{#if $noteLocalStorage.length > 0}
+					<input
+						class="hidden"
+						type="file"
+						accept="application/JSON"
+						multiple={false}
+						bind:this={fileInput}
+						on:change={async () => addItemsToLocalStorageFromFile()}
+					/>
+					<button
+						class="h-8 w-8 btn-icon rounded-full font-extrabold text-md variant-filled"
+						on:click={() => fileInput.click()}
+					>
+						<CloudUpload size={20} />
+					</button>
+				{/if}
+			</div>
 
 			<h6 class="h6 font-bold tracking-wide font-heading-token">
 				{new Date().getFullYear()} : {$noteLocalStorage.length}
