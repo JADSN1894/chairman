@@ -88,8 +88,9 @@
 							class="button btn-sm uppercase"
 							on:click|preventDefault|stopPropagation={() => {
 								languageLocalStorage.set(stringToLanguage(language));
-							}}>{language}</button
-						>
+							}}
+							>{language}
+						</button>
 					{/each}
 				</div>
 				<div class="arrow variant-filled" />
