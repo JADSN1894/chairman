@@ -31,12 +31,12 @@
 	import { noteLocalStorage } from '$stores/noteStore';
 	import { onMount } from 'svelte';
 
-	import IconSettingsSvg from '$icons/monoicons/IconSettingsSvg.svelte';
 	import { languageLocalStorage } from '$stores/i18nStore';
 	import { Language, stringToLanguage } from '$i18n/i18n';
 	import CloudUpload from '$icons/monoicons/CloudUpload.svelte';
 	import { getDataFromFile } from '$helpers/fileHelper';
 	import type { NoteItem } from '$types/noteType';
+	import SettingsIcon from '$icons/monoicons/SettingsIcon.svelte';
 
 	let fileInput: HTMLInputElement;
 
@@ -73,6 +73,19 @@
 			});
 		}
 	}
+
+	async function saveTasksToJsonFile() {
+		const anchor = document.createElement('a');
+		const str = JSON.stringify($noteLocalStorage);
+		const bytes = new TextEncoder().encode(str);
+		const blob = new Blob([bytes], {
+			type: 'application/json;charset=utf-8'
+		});
+		anchor.href = window.URL.createObjectURL(blob);
+		anchor.download = `backup-${Date.now()}.json`;
+		anchor.click();
+	}
+
 	const popupClick: PopupSettings = {
 		event: 'click',
 		target: 'popupClick',
@@ -119,12 +132,6 @@
 				<div class="arrow variant-filled" />
 			</div>
 
-			<!-- <div class="flex items-center justify-center">
-				<button use:popup={popupClick} class="xs:ml-16">
-					<IconSettingsSvg />
-				</button>
-			</div> -->
-
 			<svelte:fragment slot="trail">
 				<LightSwitch />
 			</svelte:fragment>
@@ -141,7 +148,7 @@
 
 			<div class="flex items-center justify-center gap-x-2">
 				<button use:popup={popupClick} class="xs:ml-16 flex items-center justify-center">
-					<IconSettingsSvg />
+					<SettingsIcon />
 				</button>
 				{#if $noteLocalStorage.length > 0}
 					<input
@@ -160,6 +167,13 @@
 					</button>
 				{/if}
 			</div>
+
+			<button
+				class="h-8 w-8 btn-icon rounded-full font-extrabold text-md variant-filled rotate-180"
+				on:click={() => saveTasksToJsonFile()}
+			>
+				<CloudUpload size={20} />
+			</button>
 
 			<h6 class="h6 font-bold tracking-wide font-heading-token">
 				{new Date().getFullYear()} : {$noteLocalStorage.length}
