@@ -141,43 +141,51 @@
 	<slot />
 	<!-- ---- / ---- -->
 	<svelte:fragment slot="footer">
-		<footer class="bg-surface-100-800-token h-12 flex items-center justify-between px-2">
-			<h6 class="h6 font-bold tracking-wide font-heading-token">
-				{version}
-			</h6>
+		<footer class="flex w-full bg-surface-100-800-token items-center h-12 px-2">
+			<div class="flex w-full justify-start">
+				<h6 class="h6 font-bold tracking-wide font-heading-token">
+					{version}
+				</h6>
+			</div>
 
-			<div class="flex items-center justify-center gap-x-2">
-				<button use:popup={popupClick} class="xs:ml-16 flex items-center justify-center">
-					<SettingsIcon />
-				</button>
-				{#if $noteLocalStorage.length > 0}
-					<input
-						class="hidden"
-						type="file"
-						accept="application/JSON"
-						multiple={false}
-						bind:this={fileInput}
-						on:change={async () => addItemsToLocalStorageFromFile()}
-					/>
+			<div class="flex w-full justify-center gap-x-2">
+				<div>
 					<button
+						use:popup={popupClick}
 						class="h-8 w-8 btn-icon rounded-full font-extrabold text-md variant-filled"
-						on:click={() => fileInput.click()}
+					>
+						<SettingsIcon size={20} />
+					</button>
+					{#if $noteLocalStorage.length > 0}
+						<input
+							class="hidden"
+							type="file"
+							accept="application/JSON"
+							multiple={false}
+							bind:this={fileInput}
+							on:change={async () => addItemsToLocalStorageFromFile()}
+						/>
+						<button
+							class="h-8 w-8 btn-icon rounded-full font-extrabold text-md variant-filled"
+							on:click={() => fileInput.click()}
+						>
+							<CloudUpload size={20} />
+						</button>
+					{/if}
+					<button
+						class="h-8 w-8 btn-icon rounded-full font-extrabold text-md variant-filled rotate-180"
+						on:click={() => saveTasksToJsonFile()}
 					>
 						<CloudUpload size={20} />
 					</button>
-				{/if}
+				</div>
 			</div>
 
-			<button
-				class="h-8 w-8 btn-icon rounded-full font-extrabold text-md variant-filled rotate-180"
-				on:click={() => saveTasksToJsonFile()}
-			>
-				<CloudUpload size={20} />
-			</button>
-
-			<h6 class="h6 font-bold tracking-wide font-heading-token">
-				{new Date().getFullYear()} : {$noteLocalStorage.length}
-			</h6>
+			<div class="flex w-full justify-end">
+				<h6 class="h6 font-bold tracking-wide font-heading-token">
+					{new Date().getFullYear()} : {$noteLocalStorage.length}
+				</h6>
+			</div>
 		</footer>
 	</svelte:fragment>
 </AppShell>
