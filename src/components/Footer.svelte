@@ -10,8 +10,23 @@
 	import type { NoteItem } from '$types/noteType';
 
 	import { popup, toastStore, type PopupSettings } from '@skeletonlabs/skeleton';
+	import { derived } from 'svelte/store';
 
 	let fileInput: HTMLInputElement;
+	let filenameFormatOptions: Intl.DateTimeFormatOptions = {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false
+		// hourCycle: 'h24'
+		// formatMatcher: 'best fit'
+	};
+	let filename = derived(languageLocalStorage, ($languageLocalStorage) => {
+		return new Intl.DateTimeFormat($languageLocalStorage, filenameFormatOptions).format(Date.now());
+	});
 
 	const popupClick: PopupSettings = {
 		event: 'click',
@@ -38,16 +53,40 @@
 		}
 	}
 
+	// TODO: Use File System Access: https://wicg.github.io/file-system-access/
+	// async function getNewFileHandle() {
+	// 	const opts = {
+	// 		types: [
+	// 			{
+	// 				description: 'Text file',
+	// 				accept: { 'application/json;charset=utf-8': ['.json'] }
+	// 			}
+	// 		]
+	// 	};
+	// 	return await window.showSaveFilePicker(opts);
+	// }
+
 	async function saveTasksToJsonFile() {
+		let filenameNormalized = $filename
+			.replaceAll(RegExp(/[\/ | \:]/gi), '-')
+			.replaceAll(RegExp(/\,/gi), '_')
+			.replaceAll(RegExp(/\s*/gi), '');
+
 		const anchor = document.createElement('a');
 		const str = JSON.stringify($noteLocalStorage);
 		const bytes = new TextEncoder().encode(str);
+
 		const blob = new Blob([bytes], {
 			type: 'application/json;charset=utf-8'
 		});
+
 		anchor.href = window.URL.createObjectURL(blob);
-		anchor.download = `backup-${Date.now()}.json`;
+
+		anchor.download = `chairman-backup-${filenameNormalized}.json`;
 		anchor.click();
+
+		window.URL.revokeObjectURL(anchor.href);
+		anchor.remove();
 	}
 </script>
 
