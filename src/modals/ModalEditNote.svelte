@@ -2,25 +2,38 @@
 	import { onMount } from 'svelte';
 
 	// Stores
-	import { modalStore } from '@skeletonlabs/skeleton';
+	import { InputChip, modalStore, toastStore } from '@skeletonlabs/skeleton';
 	import { editTodo } from '$stores/noteStore';
 	import { translationLocalStorage } from '$stores/translationStore';
+	import type { NoteTag } from '$types/noteType';
 
 	// Props
 	/** Exposes parent props to this component. */
 	export let parent: any;
 
+	let noteTitle = '';
 	let noteDescription = '';
+	let tagsList: string[] = [];
 
 	function onClickEventeEditNote(): void {
-		editTodo($modalStore[0].meta?.code, noteDescription);
+		console.log('tags');
+		console.log(tagsList);
+
+		editTodo({
+			code: $modalStore[0].meta?.code,
+			title: noteTitle,
+			description: noteDescription,
+			tags: tagsList
+		});
 
 		if ($modalStore[0].response) $modalStore[0].response(true);
 		modalStore.close();
 	}
 
 	onMount(() => {
+		noteTitle = $modalStore[0].meta?.title;
 		noteDescription = $modalStore[0].meta?.description;
+		tagsList = $modalStore[0].meta?.tags ?? [];
 	});
 </script>
 
@@ -30,12 +43,29 @@
 			<h2 class="h2 uppercase">{$translationLocalStorage.action}</h2>
 		</header>
 		<main>
-			{$translationLocalStorage.edit_task}
-			<textarea
-				class="input rounded-none resize-none overflow-x-visible border-2 mt-1"
-				placeholder="Note description"
-				bind:value={noteDescription}
-			/>
+			<div class="flex flex-col gap-2">
+				<input
+					type="text"
+					class="input rounded-md border-2"
+					placeholder="Title"
+					bind:value={noteTitle}
+				/>
+				<textarea
+					class="input rounded-md border-2 resize-none overflow-x-visible"
+					placeholder="Description"
+					bind:value={noteDescription}
+				/>
+
+				<InputChip
+					allowUpperCase
+					name="chips"
+					placeholder="Tags"
+					class="rounded-md border-2"
+					bind:value={tagsList}
+				/>
+
+				<span />
+			</div>
 		</main>
 		<footer class="modal-footer {parent.regionFooter}">
 			<button
