@@ -11,10 +11,13 @@
 		Modal,
 		Toast,
 		type ModalComponent,
-		LightSwitch,
 		storePopup,
 		setModeCurrent,
-		setModeUserPrefers
+		setModeUserPrefers,
+		Drawer,
+		AppRail,
+		AppRailTile,
+		drawerStore
 	} from '@skeletonlabs/skeleton';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -27,6 +30,9 @@
 
 	import Footer from '$components/Footer.svelte';
 	import Header from '$components/Header.svelte';
+	import CalendarIcon from '$icons/monoicons/CalendarIcon.svelte';
+
+	let currentTile: number = 0;
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		modalAddNote: {
@@ -58,8 +64,59 @@
 
 <Modal components={modalComponentRegistry} />
 <Toast position="bl" />
+<Drawer width="w-fit">
+	<div class="flex flex-col">
+		<AppRail>
+			<svelte:fragment slot="lead">
+				<AppRailTile
+					bind:group={currentTile}
+					name="tasks"
+					value={0}
+					title="tasks"
+					on:click={() => drawerStore.close()}
+				>
+					<svelte:fragment slot="lead">
+						<div class="flex items-center justify-center">
+							<CalendarIcon />
+						</div>
+					</svelte:fragment>
+					<span>Tasks</span>
+				</AppRailTile>
+			</svelte:fragment>
+		</AppRail>
+	</div>
+</Drawer>
 
-<AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
+<AppShell
+	regionPage="relative"
+	slotPageHeader="sticky top-0 z-10"
+	slotSidebarLeft="bg-surface-500/5 w-0 lg:w-20"
+>
+	<!-- Left Sidebar Slot -->
+	<svelte:fragment slot="sidebarLeft">
+		<AppRail>
+			<svelte:fragment slot="lead">
+				<AppRailTile bind:group={currentTile} name="tile-1" value={0} title="tile-1">
+					<svelte:fragment slot="lead">
+						<div class="flex items-center justify-center">
+							<CalendarIcon />
+						</div>
+					</svelte:fragment>
+					<span>Tasks</span>
+				</AppRailTile>
+			</svelte:fragment>
+
+			<AppRailTile bind:group={currentTile} name="tile-1" value={1} title="tile-1">
+				<svelte:fragment slot="lead">
+					<div class="flex items-center justify-center">
+						<CalendarIcon />
+					</div>
+				</svelte:fragment>
+				<span>Tags</span>
+			</AppRailTile>
+		</AppRail>
+	</svelte:fragment>
+
 	<svelte:fragment slot="header">
 		<Header />
 	</svelte:fragment>
