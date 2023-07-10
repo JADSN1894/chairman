@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import type { NoteItem } from '$types/noteType';
+import type { AddNoteItem, EditItem, NoteItem, NoteTag } from '$types/noteType';
 import { localStorageStore } from '@skeletonlabs/skeleton';
 
 const LOCAL_STORAGE_KEY = 'notes'
@@ -14,9 +14,17 @@ noteLocalStorage.subscribe((value) => {
 });
 
 
-export const addTodo = (description: string) => {
+export const addTodo = ({ title, description, tags }: AddNoteItem) => {
+
+
     noteLocalStorage.update((currentNotes): NoteItem[] => {
-        return [...currentNotes, <NoteItem>{ code: crypto.randomUUID(), description, createdAt: Date.now() }];
+        return [...currentNotes, <NoteItem>{
+            code: crypto.randomUUID(),
+            title,
+            description,
+            createdAt: Date.now(),
+            tags
+        }];
     });
 };
 
@@ -26,11 +34,12 @@ export const deleteNote = (code: string) => {
     });
 };
 
-export const editTodo = (code: string, description: string) => {
+export const editTodo = ({ code, title, description, tags }: EditItem) => {
+
     noteLocalStorage.update((currentNotes) => {
         return currentNotes.map((note) => {
             if (note.code === code) {
-                return { ...note, description };
+                return { ...note, title, description, tags };
             }
             return note;
         });

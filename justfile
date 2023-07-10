@@ -38,6 +38,11 @@ show-listen-ports:
 kill-by-pid pid:
     @kill 9 ${pid}
 
+# Move to main branch
+checkout-main:
+    @git checkout main 
+    @git pull --all --prune
+
 # Remove git cache
 remove-git-cache:
     @git rm -rf --cached .
