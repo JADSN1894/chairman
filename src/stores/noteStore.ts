@@ -15,8 +15,6 @@ noteLocalStorage.subscribe((value) => {
 
 
 export const addTodo = ({ title, description, tags }: AddNoteItem) => {
-
-
     noteLocalStorage.update((currentNotes): NoteItem[] => {
         return [...currentNotes, <NoteItem>{
             code: crypto.randomUUID(),
