@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { languageLocalStorage } from '$stores/i18nStore';
 	import { translationLocalStorage } from '$stores/translationStore';
-	import type { EditItem, NoteItem } from '$types/noteType';
+	import type { NoteItem } from '$types/noteType';
 	import { toastStore, type ModalSettings, modalStore } from '@skeletonlabs/skeleton';
 
 	export let taskItem: NoteItem;
@@ -68,16 +68,8 @@
 		}
 	};
 
-	function showEditModal(item: EditItem): void {
-		console.log('showEditModal');
-		console.log(item.tags);
-
-		modalSettinsEditNote.meta = {
-			code: item.code,
-			title: item.title,
-			description: item.description,
-			tags: item.tags
-		};
+	function showEditModal(code: string, description: string): void {
+		modalSettinsEditNote.meta = { code, description };
 		modalStore.trigger(modalSettinsEditNote);
 	}
 
@@ -107,7 +99,7 @@
 
 <button
 	class="relative card p-4 w-full h-max rounded-lg border-2"
-	on:click|preventDefault|stopPropagation={() => showEditModal(taskItem)}
+	on:click|preventDefault|stopPropagation={() => showEditModal(taskItem.code, taskItem.description)}
 >
 	<button
 		type="button"
@@ -115,18 +107,8 @@
 		on:click|preventDefault|stopPropagation={() => showDeleteModal(taskItem.code)}>x</button
 	>
 	<div class="flex flex-col items-start justify-start gap-y-2">
-		<!-- <code class="code">{taskItem.code}</code> -->
-		<h3 class="h3 first-letter:capitalize">{taskItem.title ?? 'Untitled'}</h3>
-		<span class="text-lg">{taskItem.description}</span>
-		{#if taskItem.tags === undefined || taskItem.tags.length === 0}
-			<span class="w-full variant-ghost rounded-md p-1 font-bold">No tags</span>
-		{:else}
-			<div class="flex flex-wrap gap-1">
-				{#each taskItem.tags as item (item)}
-					<span class="chip variant-ghost font-bold first-letter:capitalize">{item}</span>
-				{/each}
-			</div>
-		{/if}
+		<code class="code">{taskItem.code}</code>
+		<span>{taskItem.description}</span>
 		<span class="font-bold"
 			>{$translationLocalStorage.createdAt}
 			{formatTimeAgoFromTimestamp(taskItem.createdAt, currentTime)}
