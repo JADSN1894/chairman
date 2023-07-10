@@ -1,4 +1,7 @@
 {
+	"editor.fontWeight": "bold",
+	"editor.formatOnSave": true,
+	"explorer.compactFolders": false,
 	"prettier.documentSelectors": [
 		"**/*.svelte"
 	],
