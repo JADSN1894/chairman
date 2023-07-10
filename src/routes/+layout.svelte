@@ -104,15 +104,6 @@
 					<span>Tasks</span>
 				</AppRailTile>
 			</svelte:fragment>
-
-			<AppRailTile bind:group={currentTile} name="tile-1" value={1} title="tile-1">
-				<svelte:fragment slot="lead">
-					<div class="flex items-center justify-center">
-						<CalendarIcon />
-					</div>
-				</svelte:fragment>
-				<span>Tags</span>
-			</AppRailTile>
 		</AppRail>
 	</svelte:fragment>
 
