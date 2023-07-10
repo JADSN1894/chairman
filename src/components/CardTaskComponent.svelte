@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { languageLocalStorage } from '$stores/i18nStore';
 	import { translationLocalStorage } from '$stores/translationStore';
-	import type { NoteItem } from '$types/noteType';
+	import type { EditItem, NoteItem } from '$types/noteType';
 	import { toastStore, type ModalSettings, modalStore } from '@skeletonlabs/skeleton';
 
 	export let taskItem: NoteItem;
@@ -68,8 +68,16 @@
 		}
 	};
 
-	function showEditModal(code: string, description: string): void {
-		modalSettinsEditNote.meta = { code, description };
+	function showEditModal(item: EditItem): void {
+		console.log('showEditModal');
+		console.log(item.tags);
+
+		modalSettinsEditNote.meta = {
+			code: item.code,
+			title: item.title,
+			description: item.description,
+			tags: item.tags
+		};
 		modalStore.trigger(modalSettinsEditNote);
 	}
 
@@ -99,7 +107,7 @@
 
 <button
 	class="relative card p-4 w-full h-max rounded-lg border-2"
-	on:click|preventDefault|stopPropagation={() => showEditModal(taskItem.code, taskItem.description)}
+	on:click|preventDefault|stopPropagation={() => showEditModal(taskItem)}
 >
 	<button
 		type="button"
@@ -108,14 +116,14 @@
 	>
 	<div class="flex flex-col items-start justify-start gap-y-2">
 		<!-- <code class="code">{taskItem.code}</code> -->
-		<h6 class="h6 first-letter:capitalize">{taskItem.title ?? 'Untitled'}</h6>
-		<span>{taskItem.description}</span>
+		<h3 class="h3 first-letter:capitalize">{taskItem.title ?? 'Untitled'}</h3>
+		<span class="text-lg">{taskItem.description}</span>
 		{#if taskItem.tags === undefined || taskItem.tags.length === 0}
-			<span class="w-full variant-filled rounded-md p-1 font-bold">No tags</span>
+			<span class="w-full variant-ghost rounded-md p-1 font-bold">No tags</span>
 		{:else}
 			<div class="flex flex-wrap gap-1">
-				{#each taskItem.tags as { id, label } (id)}
-					<span class="chip variant-filled">{label}</span>
+				{#each taskItem.tags as item (item)}
+					<span class="chip variant-ghost font-bold first-letter:capitalize">{item}</span>
 				{/each}
 			</div>
 		{/if}

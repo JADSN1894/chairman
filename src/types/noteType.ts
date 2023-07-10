@@ -1,9 +1,7 @@
 
 
-export interface NoteTag {
-    id: string,
-    label: string,
-}
+export type NoteTag = string
+
 
 export interface NoteItem {
     code: string,
@@ -14,14 +12,11 @@ export interface NoteItem {
 }
 
 export type AddNoteItem = Omit<NoteItem, "code" | "createdAt">;
+export type EditItem = Omit<NoteItem, "createdAt">;
 
 export type Notes = NoteItem[]
 
-export interface NoteItemCreate {
-    description: string
-}
-
-export interface NoteItemEdit {
-    code: string,
-    description: string
-}
+// export interface NoteItemEdit {
+//     code: string,
+//     description: string
+// }

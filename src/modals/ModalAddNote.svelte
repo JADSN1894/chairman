@@ -14,14 +14,7 @@
 	let tagsList: string[] = [];
 
 	function onClickEventeAddNote(): void {
-		console.log(tagsList);
-		const tags: NoteTag[] = tagsList.map(
-			(label: string): NoteTag =>
-				<NoteTag>{
-					id: crypto.randomUUID(),
-					label
-				}
-		);
+		const tags: NoteTag[] = tagsList.map((label: string): NoteTag => label);
 
 		addTodo({ title: noteTitle, description: noteDescription, tags });
 
@@ -50,6 +43,7 @@
 					bind:value={noteDescription}
 				/>
 				<InputChip
+					allowUpperCase
 					name="chips"
 					placeholder="Tags"
 					class="rounded-md border-2"
