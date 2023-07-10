@@ -2,12 +2,7 @@
 	import MenuIcon from '$icons/monoicons/MenuIcon.svelte';
 	import { AppBar, LightSwitch } from '@skeletonlabs/skeleton';
 	import { drawerStore } from '@skeletonlabs/skeleton';
-
-	// let innerHeight = 0;
-	// let innerWidth = 0;
 </script>
-
-<!-- <svelte:window bind:innerWidth bind:innerHeight /> -->
 
 <AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
 	<svelte:fragment slot="lead">

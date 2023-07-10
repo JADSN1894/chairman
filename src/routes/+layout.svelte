@@ -6,7 +6,6 @@
 	import '../app.postcss';
 
 	import {
-		AppBar,
 		AppShell,
 		Modal,
 		Toast,
