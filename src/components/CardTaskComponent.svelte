@@ -107,8 +107,18 @@
 		on:click|preventDefault|stopPropagation={() => showDeleteModal(taskItem.code)}>x</button
 	>
 	<div class="flex flex-col items-start justify-start gap-y-2">
-		<code class="code">{taskItem.code}</code>
+		<!-- <code class="code">{taskItem.code}</code> -->
+		<h6 class="h6 first-letter:capitalize">{taskItem.title ?? 'Untitled'}</h6>
 		<span>{taskItem.description}</span>
+		{#if taskItem.tags === undefined || taskItem.tags.length === 0}
+			<span class="w-full variant-filled rounded-md p-1 font-bold">No tags</span>
+		{:else}
+			<div class="flex flex-wrap gap-1">
+				{#each taskItem.tags as { id, label } (id)}
+					<span class="chip variant-filled">{label}</span>
+				{/each}
+			</div>
+		{/if}
 		<span class="font-bold"
 			>{$translationLocalStorage.createdAt}
 			{formatTimeAgoFromTimestamp(taskItem.createdAt, currentTime)}
