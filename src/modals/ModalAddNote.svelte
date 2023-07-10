@@ -3,20 +3,15 @@
 	export let parent: any;
 
 	// Stores
-	import { InputChip, modalStore } from '@skeletonlabs/skeleton';
+	import { modalStore } from '@skeletonlabs/skeleton';
 
 	import { addTodo } from '$stores/noteStore';
 	import { translationLocalStorage } from '$stores/translationStore';
-	import type { NoteTag } from '$types/noteType';
 
-	let noteTitle = '';
 	let noteDescription = '';
-	let tagsList: string[] = [];
 
 	function onClickEventeAddNote(): void {
-		const tags: NoteTag[] = tagsList.map((label: string): NoteTag => label);
-
-		addTodo({ title: noteTitle, description: noteDescription, tags });
+		addTodo(noteDescription);
 
 		if ($modalStore[0].response) $modalStore[0].response(true);
 
@@ -30,26 +25,12 @@
 			<h2 class="h2 uppercase">{$translationLocalStorage.action}</h2>
 		</header>
 		<main>
-			<div class="flex flex-col gap-2">
-				<input
-					type="text"
-					class="input rounded-md border-2"
-					placeholder="Title"
-					bind:value={noteTitle}
-				/>
-				<textarea
-					class="input rounded-md border-2 resize-none overflow-x-visible"
-					placeholder="Description"
-					bind:value={noteDescription}
-				/>
-				<InputChip
-					allowUpperCase
-					name="chips"
-					placeholder="Tags"
-					class="rounded-md border-2"
-					bind:value={tagsList}
-				/>
-			</div>
+			{$translationLocalStorage.add_task}
+			<textarea
+				class="input rounded-md resize-none overflow-x-visible border-2 mt-1"
+				placeholder="Note description"
+				bind:value={noteDescription}
+			/>
 		</main>
 		<footer class="modal-footer {parent.regionFooter}">
 			<button
