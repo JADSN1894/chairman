@@ -21,6 +21,8 @@
         pkgs = nixpkgs.legacyPackages.${system};
 
         packages = with pkgs; [
+          miniserve
+          bat
           fnm
           zellij
           just
@@ -38,10 +40,15 @@
           nixd
           nixpkgs-fmt
         ];
-    in
+      in
       {
         devShell = pkgs.mkShell {
           buildInputs = packages;
+
+          shellHook =
+            ''
+              zellij --layout layout-file.kdl
+            '';
         };
       });
 }
