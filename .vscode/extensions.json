@@ -5,6 +5,7 @@
         "usernamehw.errorlens",
         "yoavbls.pretty-ts-errors",
         "skellock.just",
-        "fivethree.vscode-svelte-snippets"
+        "fivethree.vscode-svelte-snippets",
+        "jnoortheen.nix-ide"
     ]
 }
