@@ -21,6 +21,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
 
         packages = with pkgs; [
+          hurl
           miniserve
           bat
           fnm
@@ -47,7 +48,8 @@
 
           shellHook =
             ''
-              zellij --layout layout-file.kdl
+              codium .
+              zellij
             '';
         };
       });
