@@ -7,7 +7,7 @@ dev:
    @npm run dev
 
 prod:
-   @rm --recursive --force build
+   #@rm --recursive --force build
    @npm run build
    @python3 -m http.server --directory build
 
