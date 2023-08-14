@@ -40,6 +40,7 @@
           vscodium
           nixd
           nixpkgs-fmt
+          nodejs_20
         ];
       in
       {
