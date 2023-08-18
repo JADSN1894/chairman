@@ -2,9 +2,12 @@
 	import { languageLocalStorage } from '$stores/i18nStore';
 	import { translationLocalStorage } from '$stores/translationStore';
 	import type { EditItem, NoteItem } from '$types/noteType';
-	import { toastStore, type ModalSettings, modalStore } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 
 	export let taskItem: NoteItem;
+
+	const modalStore = getModalStore();
+	const toastStore = getToastStore();
 
 	let ms = 1000; // 60 seconds;
 	let currentTime = new Date().getTime();

@@ -7,7 +7,15 @@
 	import { translationLocalStorage } from '$stores/translationStore';
 	import type { NoteItem } from '$types/noteType';
 
-	import { toastStore, type ModalSettings, modalStore, FileDropzone } from '@skeletonlabs/skeleton';
+	import {
+		getToastStore,
+		type ModalSettings,
+		getModalStore,
+		FileDropzone
+	} from '@skeletonlabs/skeleton';
+
+	const modalStore = getModalStore();
+	const toastStore = getToastStore();
 
 	let files: FileList;
 

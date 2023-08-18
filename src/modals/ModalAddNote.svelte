@@ -3,11 +3,13 @@
 	export let parent: any;
 
 	// Stores
-	import { InputChip, modalStore } from '@skeletonlabs/skeleton';
+	import { InputChip, getModalStore } from '@skeletonlabs/skeleton';
 
 	import { addTodo } from '$stores/noteStore';
 	import { translationLocalStorage } from '$stores/translationStore';
 	import type { NoteTag } from '$types/noteType';
+
+	const modalStore = getModalStore();
 
 	let noteTitle = '';
 	let noteDescription = '';

@@ -9,8 +9,10 @@
 	import { noteLocalStorage } from '$stores/noteStore';
 	import type { NoteItem } from '$types/noteType';
 
-	import { popup, toastStore, type PopupSettings } from '@skeletonlabs/skeleton';
+	import { popup, getToastStore, type PopupSettings } from '@skeletonlabs/skeleton';
 	import { derived } from 'svelte/store';
+
+	const toastStore = getToastStore();
 
 	let fileInput: HTMLInputElement;
 	let filenameFormatOptions: Intl.DateTimeFormatOptions = {

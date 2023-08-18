@@ -6,6 +6,7 @@
         "yoavbls.pretty-ts-errors",
         "skellock.just",
         "fivethree.vscode-svelte-snippets",
-        "jnoortheen.nix-ide"
+        "jnoortheen.nix-ide",
+        "csstools.postcss"
     ]
 }

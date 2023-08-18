@@ -1,8 +1,6 @@
 <script lang="ts">
 	import CalendarIcon from '$icons/monoicons/CalendarIcon.svelte';
-	import MenuIcon from '$icons/monoicons/MenuIcon.svelte';
 	import { AppBar, LightSwitch } from '@skeletonlabs/skeleton';
-	import { drawerStore } from '@skeletonlabs/skeleton';
 </script>
 
 <AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
