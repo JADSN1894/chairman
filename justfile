@@ -6,6 +6,7 @@ list:
 dev:
    @npm run dev
 
+# Run in production mode
 prod:
    @rm --recursive --force build
    @npm run build

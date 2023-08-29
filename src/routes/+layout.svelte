@@ -1,7 +1,4 @@
 <script lang="ts">
-	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-	import '@skeletonlabs/skeleton/styles/skeleton.css';
-
 	// Application's global stylesheet
 	import '../app.postcss';
 
@@ -16,7 +13,8 @@
 		Drawer,
 		AppRail,
 		AppRailTile,
-		drawerStore
+		initializeStores,
+		getDrawerStore
 	} from '@skeletonlabs/skeleton';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -30,6 +28,10 @@
 	import Footer from '$components/Footer.svelte';
 	import Header from '$components/Header.svelte';
 	import CalendarIcon from '$icons/monoicons/CalendarIcon.svelte';
+
+	initializeStores();
+
+	const drawerStore = getDrawerStore();
 
 	let currentTile: number = 0;
 
@@ -48,6 +50,7 @@
 		}
 	};
 
+	//* Skeleton setup
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	onMount(() => {

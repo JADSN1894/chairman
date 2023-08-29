@@ -3,9 +3,11 @@
 	export let parent: any;
 
 	// Stores
-	import { modalStore } from '@skeletonlabs/skeleton';
+	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { deleteNote } from '$stores/noteStore';
 	import { translationLocalStorage } from '$stores/translationStore';
+
+	const modalStore = getModalStore();
 
 	function onClickEventeDeleteNote(): void {
 		deleteNote($modalStore[0].meta?.code);

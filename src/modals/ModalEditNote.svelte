@@ -2,14 +2,15 @@
 	import { onMount } from 'svelte';
 
 	// Stores
-	import { InputChip, modalStore, toastStore } from '@skeletonlabs/skeleton';
+	import { InputChip, getModalStore } from '@skeletonlabs/skeleton';
 	import { editTodo } from '$stores/noteStore';
 	import { translationLocalStorage } from '$stores/translationStore';
-	import type { NoteTag } from '$types/noteType';
 
 	// Props
 	/** Exposes parent props to this component. */
 	export let parent: any;
+
+	const modalStore = getModalStore();
 
 	let noteTitle = '';
 	let noteDescription = '';

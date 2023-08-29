@@ -9,8 +9,11 @@
 	import { noteLocalStorage } from '$stores/noteStore';
 	import type { NoteItem } from '$types/noteType';
 
-	import { popup, toastStore, type PopupSettings } from '@skeletonlabs/skeleton';
+	import { popup, getToastStore, type PopupSettings } from '@skeletonlabs/skeleton';
 	import { derived } from 'svelte/store';
+	import { v4 } from 'uuid';
+
+	const toastStore = getToastStore();
 
 	let fileInput: HTMLInputElement;
 	let filenameFormatOptions: Intl.DateTimeFormatOptions = {
@@ -40,7 +43,7 @@
 			const selectedFile: File = innerFiles[0];
 			const tasksFromFile: NoteItem[] = await getDataFromFile(selectedFile);
 			const withNewCode: NoteItem[] = tasksFromFile.map((noteItem: NoteItem) => {
-				noteItem.code = crypto.randomUUID();
+				noteItem.code = v4();
 				return noteItem;
 			});
 
